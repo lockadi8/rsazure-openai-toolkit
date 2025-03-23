@@ -17,6 +17,11 @@ dependencies = [
     "python-dotenv>=1.0.0"
 ]
 
+[project.urls]
+"Homepage" = "https://github.com/renan-siqueira/rsazure-openai-toolkit"
+"Repository" = "https://github.com/renan-siqueira/rsazure-openai-toolkit"
+"Documentation" = "https://github.com/renan-siqueira/rsazure-openai-toolkit#readme"
+
 [tool.setuptools]
 package-dir = {"" = "src"}
 
