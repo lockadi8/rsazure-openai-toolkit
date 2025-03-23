@@ -1,4 +1,4 @@
-from src.integration import generate_response
+from integration import generate_response
 
 
 def call_azure_openai_handler(**kwargs) -> str:
