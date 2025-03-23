@@ -1,5 +1,5 @@
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/rsazure-openai-toolkit)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+[![PyPI version](https://img.shields.io/pypi/v/rsazure-openai-toolkit)](https://pypi.org/project/rsazure-openai-toolkit/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # rsazure-openai-toolkit
 
