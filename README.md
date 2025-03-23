@@ -1,5 +1,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/rsazure-openai-toolkit)](https://pypi.org/project/rsazure-openai-toolkit/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build](https://github.com/renan-siqueira/rsazure-openai-toolkit/actions/workflows/python-ci.yml/badge.svg)](https://github.com/renan-siqueira/rsazure-openai-toolkit/actions)
+
 
 # rsazure-openai-toolkit
 
