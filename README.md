@@ -110,3 +110,13 @@ Feel free to reach out via:
 - Email: [renan.siqu@gmail.com](mailto:renan.siqu@gmail.com)
 
 Contributions, suggestions, and bug reports are welcome!
+___
+## 👨‍💻 About the Author
+
+Hi, I'm Renan Siqueira Antonio — a technical leader in Artificial Intelligence with hands-on experience in delivering real-world AI solutions across different industries.
+
+Over the years, I've had the opportunity to collaborate with incredible teams and contribute to initiatives recognized by companies.
+
+This project was born from a personal need: to create a clean, reusable, and production-ready way to interact with Azure OpenAI. I'm sharing it with the hope that it helps others move faster and build better.
+
+🔗 [LinkedIn](https://www.linkedin.com/in/renan-siqueira-antonio/)
