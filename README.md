@@ -1,12 +1,48 @@
-[![PyPI version](https://img.shields.io/pypi/v/rsazure-openai-toolkit)](https://pypi.org/project/rsazure-openai-toolkit/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build](https://github.com/renan-siqueira/rsazure-openai-toolkit/actions/workflows/python-ci.yml/badge.svg)](https://github.com/renan-siqueira/rsazure-openai-toolkit/actions)
+<p align="left">
+  <!-- 📦 PyPI -->
+  <img src="https://img.shields.io/pypi/v/rsazure-openai-toolkit" alt="PyPI Version" />
+  <img src="https://img.shields.io/pypi/dm/rsazure-openai-toolkit" alt="PyPI Downloads" />
+  <img src="https://img.shields.io/github/v/tag/renan-siqueira/rsazure-openai-toolkit" alt="GitHub Tag" />
+  <img src="https://img.shields.io/github/license/renan-siqueira/rsazure-openai-toolkit" alt="License" />
+  <img src="https://img.shields.io/github/repo-size/renan-siqueira/rsazure-openai-toolkit" alt="Repo Size" />
+  <img src="https://img.shields.io/badge/python-3.11-blue" alt="Python Version" />
+</p>
 
+<p align="left">
+  <!-- 🔧 GitHub / CI -->
+  <img src="https://img.shields.io/github/last-commit/renan-siqueira/rsazure-openai-toolkit" alt="Last Commit" />
+  <img src="https://img.shields.io/github/commit-activity/m/renan-siqueira/rsazure-openai-toolkit" alt="Commits Per Month" />
+  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/actions">
+    <img src="https://github.com/renan-siqueira/rsazure-openai-toolkit/actions/workflows/python-ci.yml/badge.svg" alt="Build Status" />
+  </a>
+  <img src="https://img.shields.io/badge/security-scanned-green" alt="Security Scan" />
+</p>
+
+<p align="left">
+  <!-- 👥 Comunidade -->
+  <img src="https://img.shields.io/github/stars/renan-siqueira/rsazure-openai-toolkit" alt="GitHub Stars" />
+  <img src="https://img.shields.io/github/contributors/renan-siqueira/rsazure-openai-toolkit" alt="Contributors" />
+  <img src="https://img.shields.io/github/issues/renan-siqueira/rsazure-openai-toolkit" alt="Open Issues" />
+  <img src="https://img.shields.io/github/issues-pr/renan-siqueira/rsazure-openai-toolkit" alt="Open PRs" />
+</p>
+
+<p align="left">
+  <!-- 🙋‍♂️ Author -->
+  <a href="https://github.com/renan-siqueira">
+    <img src="https://img.shields.io/badge/author-Renan%20Siqueira%20Antonio-blue" alt="Author" />
+  </a>
+  <a href="https://www.linkedin.com/in/renan-siqueira-antonio/">
+    <img src="https://img.shields.io/badge/linkedin-@renan--siqueira--antonio-blue?logo=linkedin" alt="LinkedIn" />
+  </a>
+</p>
+
+___
 
 # rsazure-openai-toolkit
 
 A lightweight, independent toolkit to simplify and accelerate integration with Azure OpenAI.
 ___
+
 ## Installation
 
 ### From PyPI:
@@ -18,6 +54,7 @@ pip install rsazure-openai-toolkit
 pip install git+https://github.com/renan-siqueira/rsazure-openai-toolkit
 ```
 ___
+
 ## Usage
 
 ```python
@@ -37,6 +74,7 @@ response = call_azure_openai_handler(
 print(response)
 ```
 ___
+
 ## Environment Configuration
 
 To simplify local development and testing, this toolkit supports loading environment variables from a `.env` file.
@@ -69,6 +107,7 @@ response = call_azure_openai_handler(
 )
 ```
 ___
+
 ## Features
 
 - Modular and easy to extend
@@ -76,16 +115,18 @@ ___
 - Accepts OpenAI-compatible parameters
 - Ready for production use
 ___
+
 ## Requirements
 
 - Python 3.9+
 - Azure OpenAI resource and deployment
 ___
+
 ## License
 
 This project is open-sourced and available to everyone under the [MIT License](LICENSE).
-
 ___
+
 ### 🚨 Possible Issues
 
 - **Invalid API Key or Endpoint**  
@@ -99,7 +140,16 @@ ___
 
 - **Missing Environment Variables**  
   Always ensure `load_dotenv()` is called before accessing `os.getenv(...)`, especially when testing locally.
+___
 
+## 📝 Changelog
+
+Check the [Releases](https://github.com/renan-siqueira/rsazure-openai-toolkit/releases) page for updates and version history.
+___
+
+## 🛡️ Security
+
+If you discover any security issues, please report them privately via email: [renan.siqu@gmail.com](mailto:renan.siqu@gmail.com).
 ___
 
 ### 📬 Contact
@@ -110,9 +160,33 @@ Feel free to reach out via:
 
 - GitHub: [github.com/renan-siqueira](https://github.com/renan-siqueira)
 - Email: [renan.siqu@gmail.com](mailto:renan.siqu@gmail.com)
+- Linkedin: [linkedin.com/in/renan-siqueira-antonio](https://www.linkedin.com/in/renan-siqueira-antonio/)
 
 Contributions, suggestions, and bug reports are welcome!
 ___
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to open issues or pull requests.
+
+To contribute:
+
+1. Fork the repo
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Commit your changes
+4. Open a PR
+
+Please follow PEP8 and ensure your code passes existing tests.
+___
+
+## 🧠 Design Principles
+
+- Simplicity over complexity
+- Focus on production-readiness
+- Explicit configuration
+- Easy to extend and maintain
+___
+
 ## 👨‍💻 About the Author
 
 Hi, I'm Renan Siqueira Antonio — a technical leader in Artificial Intelligence with hands-on experience in delivering real-world AI solutions across different industries.
@@ -120,5 +194,3 @@ Hi, I'm Renan Siqueira Antonio — a technical leader in Artificial Intelligence
 Over the years, I've had the opportunity to collaborate with incredible teams and contribute to initiatives recognized by companies.
 
 This project was born from a personal need: to create a clean, reusable, and production-ready way to interact with Azure OpenAI. I'm sharing it with the hope that it helps others move faster and build better.
-
-🔗 [LinkedIn](https://www.linkedin.com/in/renan-siqueira-antonio/)
