@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rsazure-openai-toolkit"
-version = "0.1.2"
+version = "0.1.3"
 description = "Toolkit for fast and flexible integration with Azure OpenAI"
 authors = [{ name = "Renan Siqueira Antonio", email = "renan.siqu@gmail.com" }]
 readme = "README.md"
@@ -21,6 +21,7 @@ dependencies = [
 "Homepage" = "https://github.com/renan-siqueira/rsazure-openai-toolkit"
 "Repository" = "https://github.com/renan-siqueira/rsazure-openai-toolkit"
 "Documentation" = "https://github.com/renan-siqueira/rsazure-openai-toolkit#readme"
+"Security Policy" = "https://github.com/renan-siqueira/rsazure-openai-toolkit/security/policy"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
