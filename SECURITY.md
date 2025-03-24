@@ -1,10 +1,26 @@
 # Security Policy
+___
 
-## Reporting a Vulnerability
+## 📢 Reporting a Vulnerability
 
-If you discover a security vulnerability, please report it by opening a GitHub issue or emailing renan.siqu@gmail.com.
+If you discover a potential security issue in this project, please **report it responsibly**:
 
-This project does **not** collect or send data externally. 
-All logic is executed locally, and the code is open for audit.
+- Open a [GitHub Issue](https://github.com/renan-siqueira/rsazure-openai-toolkit/issues), or  
+- Email directly: [renan.siqu@gmail.com](mailto:renan.siqu@gmail.com)
 
-Use responsibly and feel free to contribute improvements.
+You will receive a response as soon as possible. Please **avoid disclosing vulnerabilities publicly** before they are resolved.
+___
+
+## 🔒 Security Notes
+
+- This toolkit **does not collect or send any data externally**.
+- All logic is executed **locally** and transparently — feel free to audit the code.
+- No telemetry, analytics, or external logging mechanisms are used.
+___
+
+## 🤝 Responsible Use
+
+This project is open source and shared in the spirit of collaboration.
+Please use it ethically and contribute improvements or fixes whenever possible.
+
+Thank you for helping keep the open source ecosystem safe!
