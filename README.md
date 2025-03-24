@@ -152,19 +152,6 @@ ___
 If you discover any security issues, please report them privately via email: [renan.siqu@gmail.com](mailto:renan.siqu@gmail.com).
 ___
 
-### 📬 Contact
-
-This project is maintained by **Renan Siqueira Antonio**.
-
-Feel free to reach out via:
-
-- GitHub: [github.com/renan-siqueira](https://github.com/renan-siqueira)
-- Email: [renan.siqu@gmail.com](mailto:renan.siqu@gmail.com)
-- Linkedin: [linkedin.com/in/renan-siqueira-antonio](https://www.linkedin.com/in/renan-siqueira-antonio/)
-
-Contributions, suggestions, and bug reports are welcome!
-___
-
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to open issues or pull requests.
@@ -194,3 +181,14 @@ Hi, I'm Renan Siqueira Antonio — a technical leader in Artificial Intelligence
 Over the years, I've had the opportunity to collaborate with incredible teams and contribute to initiatives recognized by companies.
 
 This project was born from a personal need: to create a clean, reusable, and production-ready way to interact with Azure OpenAI. I'm sharing it with the hope that it helps others move faster and build better.
+___
+
+### 📬 Contact
+
+Feel free to reach out via:
+
+- GitHub: [github.com/renan-siqueira](https://github.com/renan-siqueira)
+- Email: [renan.siqu@gmail.com](mailto:renan.siqu@gmail.com)
+- Linkedin: [linkedin.com/in/renan-siqueira-antonio](https://www.linkedin.com/in/renan-siqueira-antonio/)
+
+Contributions, suggestions, and bug reports are welcome!
