@@ -1,0 +1,25 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [0.1.3] - 2025-03-24
+### Changed
+- Improved `README.md` with detailed badges and sections
+- Added `SECURITY.md` file and linked in `pyproject.toml`
+- Updated project metadata (`project.urls`) in `pyproject.toml`
+
+## [0.1.2] - 2025-03-24
+### Added
+- Included `SECURITY.md` policy
+- Added missing URLs to `pyproject.toml` for better PyPI visibility
+
+## [0.1.1] - 2025-03-23
+### Fixed
+- Import path issue in `handler.py`
+
+## [0.1.0] - 2025-03-23
+### Added
+- First public release with:
+  - `call_azure_openai_handler`
+  - `generate_response` with retry
+  - `.env` configuration support

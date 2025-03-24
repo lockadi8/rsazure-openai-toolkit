@@ -145,6 +145,8 @@ ___
 ## 📝 Changelog
 
 Check the [Releases](https://github.com/renan-siqueira/rsazure-openai-toolkit/releases) page for updates and version history.
+
+See the full list of changes in [CHANGELOG.md](CHANGELOG.md)
 ___
 
 ## 🛡️ Security
