@@ -16,6 +16,8 @@ All notable changes to this project will be documented in this file.
 ## [0.1.1] - 2025-03-23
 ### Fixed
 - Import path issue in `handler.py`
+### Added
+- Initial GitHub Actions CI with basic install/import test
 
 ## [0.1.0] - 2025-03-23
 ### Added
