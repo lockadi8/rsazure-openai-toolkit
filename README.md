@@ -1,29 +1,53 @@
 <p align="left">
   <!-- 📦 PyPI -->
-  <img src="https://img.shields.io/pypi/v/rsazure-openai-toolkit" alt="PyPI Version" />
-  <img src="https://img.shields.io/pypi/dm/rsazure-openai-toolkit" alt="PyPI Downloads" />
-  <img src="https://img.shields.io/github/v/tag/renan-siqueira/rsazure-openai-toolkit" alt="GitHub Tag" />
-  <img src="https://img.shields.io/github/license/renan-siqueira/rsazure-openai-toolkit" alt="License" />
-  <img src="https://img.shields.io/github/repo-size/renan-siqueira/rsazure-openai-toolkit" alt="Repo Size" />
+  <a href="https://pypi.org/project/rsazure-openai-toolkit/">
+    <img src="https://img.shields.io/pypi/v/rsazure-openai-toolkit" alt="PyPI Version" />
+  </a>
+  <a href="https://pypi.org/project/rsazure-openai-toolkit/">
+    <img src="https://img.shields.io/pypi/dm/rsazure-openai-toolkit" alt="PyPI Downloads" />
+  </a>
+  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/tags">
+    <img src="https://img.shields.io/github/v/tag/renan-siqueira/rsazure-openai-toolkit" alt="GitHub Tag" />
+  </a>
+  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/renan-siqueira/rsazure-openai-toolkit" alt="License" />
+  </a>
+  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit">
+    <img src="https://img.shields.io/github/repo-size/renan-siqueira/rsazure-openai-toolkit" alt="Repo Size" />
+  </a>
   <img src="https://img.shields.io/badge/python-3.11-blue" alt="Python Version" />
 </p>
 
 <p align="left">
   <!-- 🔧 GitHub / CI -->
-  <img src="https://img.shields.io/github/last-commit/renan-siqueira/rsazure-openai-toolkit" alt="Last Commit" />
-  <img src="https://img.shields.io/github/commit-activity/m/renan-siqueira/rsazure-openai-toolkit" alt="Commits Per Month" />
-  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/actions">
+  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/commits/main">
+    <img src="https://img.shields.io/github/last-commit/renan-siqueira/rsazure-openai-toolkit" alt="Last Commit" />
+  </a>
+  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/graphs/commit-activity">
+    <img src="https://img.shields.io/github/commit-activity/m/renan-siqueira/rsazure-openai-toolkit" alt="Commits Per Month" />
+  </a>
+  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/actions/workflows/python-ci.yml">
     <img src="https://github.com/renan-siqueira/rsazure-openai-toolkit/actions/workflows/python-ci.yml/badge.svg" alt="Build Status" />
   </a>
-  <img src="https://img.shields.io/badge/security-scanned-green" alt="Security Scan" />
+  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/security">
+    <img src="https://img.shields.io/badge/security-scanned-green" alt="Security Scan" />
+  </a>
 </p>
 
 <p align="left">
   <!-- 👥 Comunidade -->
-  <img src="https://img.shields.io/github/stars/renan-siqueira/rsazure-openai-toolkit" alt="GitHub Stars" />
-  <img src="https://img.shields.io/github/contributors/renan-siqueira/rsazure-openai-toolkit" alt="Contributors" />
-  <img src="https://img.shields.io/github/issues/renan-siqueira/rsazure-openai-toolkit" alt="Open Issues" />
-  <img src="https://img.shields.io/github/issues-pr/renan-siqueira/rsazure-openai-toolkit" alt="Open PRs" />
+  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/stargazers">
+    <img src="https://img.shields.io/github/stars/renan-siqueira/rsazure-openai-toolkit" alt="GitHub Stars" />
+  </a>
+  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/renan-siqueira/rsazure-openai-toolkit" alt="Contributors" />
+  </a>
+  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/issues">
+    <img src="https://img.shields.io/github/issues/renan-siqueira/rsazure-openai-toolkit" alt="Open Issues" />
+  </a>
+  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/pulls">
+    <img src="https://img.shields.io/github/issues-pr/renan-siqueira/rsazure-openai-toolkit" alt="Open PRs" />
+  </a>
 </p>
 
 <p align="left">
