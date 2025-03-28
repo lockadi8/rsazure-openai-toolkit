@@ -147,9 +147,9 @@ AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
 AZURE_OPENAI_API_VERSION=2023-12-01-preview
 AZURE_DEPLOYMENT_NAME=your-deployment-name
 ```
-You can also ask in English (or any supported language):
+You can also ask in Portuguese (or any supported language):
 ```bash
-rschat "Tell me about Artificial Intelligence"
+rschat "Resuma o que é inteligência artificial"
 ```
 
 *If any required variable is missing, the CLI will exit with a clear error message.*
