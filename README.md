@@ -64,7 +64,7 @@ ___
 
 # rsazure-openai-toolkit
 
-A lightweight, independent toolkit to simplify and accelerate integration with Azure OpenAI.
+A lightweight, independent toolkit (with CLI support) to simplify and accelerate integration with Azure OpenAI.
 ___
 
 ## Installation
@@ -132,12 +132,36 @@ response = call_azure_openai_handler(
 ```
 ___
 
+## 🖥️ CLI Usage (`rschat`)
+
+After installing the package, you can interact with Azure OpenAI directly from your terminal using:
+
+```bash
+rschat "What can you do for me?"
+```
+
+Make sure you have a valid .env file with your Azure credentials configured:
+```env
+AZURE_OPENAI_API_KEY=your-api-key
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+AZURE_OPENAI_API_VERSION=2023-12-01-preview
+AZURE_DEPLOYMENT_NAME=your-deployment-name
+```
+You can also ask in English (or any supported language):
+```bash
+rschat "Tell me about Artificial Intelligence"
+```
+
+*If any required variable is missing, the CLI will exit with a clear error message.*
+___
+
 ## Features
 
 - Modular and easy to extend
 - Retry mechanism with exponential backoff
 - Accepts OpenAI-compatible parameters
 - Ready for production use
+- Comes with an intuitive CLI (`rschat`) for direct terminal interaction
 ___
 
 ## Requirements
