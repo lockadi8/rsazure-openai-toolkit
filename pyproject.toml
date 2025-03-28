@@ -14,8 +14,12 @@ license = { text = "MIT" }
 dependencies = [
     "openai>=1.0.0",
     "tenacity>=8.2.0",
-    "python-dotenv>=1.0.0"
+    "python-dotenv>=1.0.0",
+    "click>=8.1.0"
 ]
+
+[project.scripts]
+rschat = "rsazure_openai_toolkit.cli:cli"
 
 [project.urls]
 "Homepage" = "https://github.com/renan-siqueira/rsazure-openai-toolkit"
