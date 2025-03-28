@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2025-03-28
+### Added
+- New CLI entrypoint `rschat` to interact with Azure OpenAI from the terminal
+- CLI documentation section in README
+- Environment variable validation in CLI
+
+### Changed
+- Bumped version to 0.2.0
+
 ## [0.1.3] - 2025-03-24
 ### Changed
 - Improved `README.md` with detailed badges and sections
