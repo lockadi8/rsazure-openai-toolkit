@@ -30,6 +30,8 @@ Also review and update (if needed):
 - `keywords = [...]`
 - `classifiers = [...]`
 
+*When adding new non-code files (e.g. templates, env files), remember to configure [tool.setuptools.package-data].*
+
 ### CHANGELOG.md
 At the top, add a new entry with this structure:
 

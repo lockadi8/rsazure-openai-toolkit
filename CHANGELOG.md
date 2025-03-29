@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2025-03-29
+### Fixed
+- Missing `.j2` templates in the distributed package, causing `rschat-tools samples` to crash on installed versions.
+
+### Changed
+- Bumped version to 0.3.1
+
 ## [0.3.0] - 2025-03-29
 ### Added
 - New CLI utility `rschat-tools` for developer-facing features
