@@ -16,11 +16,29 @@ ___
 
 ## ✅ Security Best Practices
 
-While this project does not handle user credentials or sensitive data directly, it is recommended that:
+While this project does not handle user credentials or transmit data externally, it is recommended that:
 
 - You never expose API keys in source code
 - Environment variables are used to manage secrets
 - You follow the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege) when configuring Azure OpenAI
+___
+
+## 📝 Logging and Local Data
+
+This toolkit supports **opt-in local logging** to assist with debugging and cost tracking. When enabled via environment variables, the following data may be saved locally:
+
+- Prompts and responses
+- Token usage
+- Response time
+- Model configuration (including seed)
+
+### Important:
+
+- Logging is **disabled by default**
+- All data is saved **locally on disk**, never transmitted
+- You are responsible for protecting local logs — especially in shared environments
+
+> Configure logging via `RSCHAT_LOG_MODE` and `RSCHAT_LOG_PATH` environment variables.
 ___
 
 ## 📣 Reporting a Vulnerability

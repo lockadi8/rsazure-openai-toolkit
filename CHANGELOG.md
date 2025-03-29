@@ -2,8 +2,46 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.3.3] - 2025-03-29
+## [0.4.0] - 2025-03-29
+### Added
+- `InteractionLogger`: a flexible and transparent logging system for model interactions
+  - Supports `jsonl` and `csv` formats
+  - Logging is fully opt-in via `RSCHAT_LOG_MODE` and `RSCHAT_LOG_PATH`
+  - Includes timestamps, prompts, tokens, model config, and raw API response
+- `get_model_config()`: utility function to build model parameters with optional overrides and default values
+  - Supports `temperature`, `max_tokens`, `seed`, and others
+  - Provides a clean and traceable way to manage generation config
+- Full input/output/total token tracking from the OpenAI API (with fallback)
+- CLI (`rschat`) now prints:
+  - Assistant response
+  - Token usage (input, output, total)
+  - Model used
+  - Seed (if provided)
+  - Elapsed time
+- Added `seed` support for reproducible outputs
+- Updated all example templates to use the new architecture
+  - Now print response info and optionally log interactions
+  - Use `get_model_config()` for generation parameters
+- Logging gracefully handles `RSCHAT_LOG_MODE=none` (or unset) without errors
+- Template logging support added to:
+  - `basic_usage.py.j2`
+  - `advanced_usage.py.j2`
+  - `env_usage.py.j2`
+  - `env_advanced_usage.py.j2`
+
 ### Changed
+- `call_azure_openai_handler()` now returns the full OpenAI response object instead of just the content
+- Token estimation moved to a reusable utility with smart tokenizer resolution
+- Logging system respects user intent: no logging unless explicitly enabled via environment variables
+- CLI output reorganized to be more readable and transparent
+- Bumped version to 0.4.0
+
+### Removed
+- Implicit logging behavior — users must now explicitly enable it
+
+
+## [0.3.3] - 2025-03-29
+### Added
 - Rewritten `README.md` to improve structure, clarity, and professionalism
 - Improved section linking and emoji compatibility for better UX
 - Refactored `SECURITY.md` with clearer language and contributor guidelines

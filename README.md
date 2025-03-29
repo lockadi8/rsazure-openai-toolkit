@@ -71,7 +71,7 @@ ___
 ## 📚 Contents
 - [Why This Project?](#-why-this-project)
 - [Design Principles](#-design-principles)
-- [Features](#-features)
+- [Key Features](#-key-features)
 - [Security](#-security)
 - [Requirements](#-requirements)
 - [License](#-license)
@@ -79,6 +79,8 @@ ___
 - [Manual Setup](#-manual-setup-alternative)
 - [Usage](#usage)
 - [Environment Configuration](#environment-configuration)
+- [Logging & Usage Tracking](#-logging-and-usage-tracking)
+- [Advanced Configuration (Optional)](#-advanced-configuration-optional)
 - [CLI Usage (`rschat`)](#-cli-usage-rschat)
 - [Developer Tools (`rschat-tools`)](#-developer-tools-rschat-tools)
 - [Possible Issues](#-possible-issues)
@@ -118,7 +120,7 @@ These principles define how this toolkit is designed, maintained, and expected t
 > These principles are not just technical choices — they're part of a commitment to making this toolkit secure, stable, and genuinely useful in professional environments.
 ___
 
-## 🚀 Features
+## 🚀 Key Features
 
 This toolkit was designed with reliability and real-world use in mind:
 
@@ -128,6 +130,10 @@ This toolkit was designed with reliability and real-world use in mind:
 - ✅ CLI-first design — includes `rschat` for terminal usage and `rschat-tools` for automation
 - ✅ Secure by design — no telemetry, no external data sent
 - ✅ Production-ready — suitable for professional, CI/CD-integrated environments
+- ✅ Transparent logging — opt-in logging of all interactions with token usage and config
+- ✅ Smart token tracking — includes input/output/total token count (with fallback)
+- ✅ Reproducible outputs — seed-based generation for deterministic results
+- ✅ Config utilities — reusable `get_model_config()` function to define model behavior
 ___
 
 ## 🔐 Security
@@ -261,6 +267,125 @@ response = call_azure_openai_handler(
 ```
 ___
 
+## 📊 Logging and Usage Tracking
+
+This toolkit gives you full control over logging behavior — by default, **no logs are saved** unless explicitly configured.
+
+To enable logging:
+
+```env
+RSCHAT_LOG_MODE=jsonl      # or csv
+RSCHAT_LOG_PATH=~/.rsazure/chat_logs.jsonl
+```
+
+What gets logged:
+
+- Prompt and response
+- Token usage (input, output, total)
+- Model used
+- Seed (if any)
+- Response time
+- Raw API response
+- Full model configuration
+
+This helps with **debugging**, **cost estimation**, and **auditability** — without compromising privacy.
+
+If you set `RSCHAT_LOG_MODE=none` or omit both variables, **no logs will be generated** — respecting user intent by design.
+___
+
+
+## 🔧 Advanced Configuration (Optional)
+
+This toolkit provides a utility function called `get_model_config()` to help you **explicitly configure** OpenAI model behavior — in a way that is **transparent, reproducible, and easy to override**.
+
+It returns a dictionary of model parameters that can be passed directly into the `call_azure_openai_handler`.
+
+### ✅ Benefits:
+- Clear defaults for fast iteration
+- Full support for OpenAI parameters
+- Reproducible generation with optional `seed`
+- Easy to override only what you need
+
+### 🔍 Supported Parameters
+
+| Parameter           | Description                                                                 |
+|---------------------|-----------------------------------------------------------------------------|
+| `temperature`       | Controls randomness (0.0 = deterministic, 1.0 = more creative)              |
+| `max_tokens`        | Maximum number of tokens to generate                                        |
+| `seed`              | Makes generation deterministic for same input (if supported by model)       |
+| `top_p`             | Controls diversity via nucleus sampling                                     |
+| `frequency_penalty` | Penalizes repetition                                                        |
+| `presence_penalty`  | Encourages introduction of new topics                                       |
+| `stop`              | Sequence(s) to stop generation (e.g., `"\nUser:"`)                         |
+| `user`              | Optional user identifier (e.g., `"rschat-cli"`)                             |
+| `logit_bias`        | Bias certain tokens (e.g., `{token_id: -100}` to suppress a token)          |
+
+---
+
+### ⚙️ Default Configuration
+
+If you call `get_model_config()` with no arguments, you get:
+
+```python
+from rsazure_openai_toolkit.utils.model_config_utils import get_model_config
+
+model_config = get_model_config()
+
+# Returns:
+# {
+#     "temperature": 0.7,
+#     "max_tokens": 1024,
+#     "seed": 1
+# }
+```
+
+This ensures a balance of creativity, length, and reproducibility.
+
+---
+
+### 🧩 Custom Overrides
+
+You can selectively override any parameter using the `overrides` argument:
+
+```python
+# Adjust temperature and disable seed for non-deterministic behavior
+config = get_model_config(overrides={"temperature": 0.5}, seed=None)
+
+# Set a custom top_p and seed
+config = get_model_config(overrides={"top_p": 0.9}, seed=42)
+
+# Completely override everything
+config = get_model_config(overrides={
+    "temperature": 0.2,
+    "max_tokens": 512,
+    "seed": 123,
+    "frequency_penalty": 0.5
+})
+```
+
+If `seed` is provided as both an argument **and** inside `overrides`, the override takes precedence:
+
+```python
+get_model_config(overrides={"seed": 99}, seed=1)  # → uses seed=99
+```
+
+---
+
+### 🔄 Why This Matters
+
+In production scenarios, controlling model behavior **explicitly** improves:
+
+- Cost and token budgeting
+- Debugging and reproducibility
+- Output consistency for testing and evaluation
+
+You’re always in control — no hidden defaults.
+
+---
+
+> 💡 This function powers the CLI (`rschat`) under the hood, and you can reuse it in your own apps or pipelines.
+___
+
 ## 💻 CLI Usage (`rschat`)
 
 After installing the package, you can interact with Azure OpenAI directly from your terminal using:
@@ -281,7 +406,24 @@ You can also ask in Portuguese (or any supported language):
 rschat "Resuma o que é inteligência artificial"
 ```
 
-*If any required variable is missing, the CLI will exit with a clear error message.*
+> *If any required variable is missing, the CLI will exit with a clear error message.*
+
+### 📝 Logging with CLI
+
+To enable logging while using the CLI:
+
+```env
+RSCHAT_LOG_MODE=jsonl
+RSCHAT_LOG_PATH=~/.rsazure/chat_logs.jsonl
+```
+> *This will record your interactions, including prompt, response, token usage, seed, and full configuration.*
+
+To disable logging:
+
+```env
+RSCHAT_LOG_MODE=none
+# Or omit RSCHAT_LOG_MODE and RSCHAT_LOG_PATH variables
+```
 ___
 
 ## 🧰 Developer Tools (`rschat-tools`)
