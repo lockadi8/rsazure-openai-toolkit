@@ -1,7 +1,29 @@
-# Security Policy
+# 🔐 Security Policy
+
+This document outlines the security model, access policies, and best practices for the `rsazure-openai-toolkit` project.
 ___
 
-## 📢 Reporting a Vulnerability
+## 👤 Maintainer Control & Branch Protection
+
+This repository is maintained solely by the project owner.
+
+- Direct pushes to any branch are restricted
+- Only the maintainer can merge changes
+- All releases are manually reviewed and published
+
+This guarantees that all published code is intentional, verifiable, and secure.
+___
+
+## ✅ Security Best Practices
+
+While this project does not handle user credentials or sensitive data directly, it is recommended that:
+
+- You never expose API keys in source code
+- Environment variables are used to manage secrets
+- You follow the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege) when configuring Azure OpenAI
+___
+
+## 📣 Reporting a Vulnerability
 
 If you discover a potential security issue in this project, please **report it responsibly**:
 
