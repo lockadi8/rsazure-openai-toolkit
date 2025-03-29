@@ -69,7 +69,7 @@ A lightweight, independent toolkit (with CLI support) to simplify and accelerate
 ___
 
 ## 📚 Contents
-- [Why This Project?](#️-why-this-project)
+- [Why This Project?](#-why-this-project)
 - [Design Principles](#-design-principles)
 - [Features](#-features)
 - [Security](#-security)
@@ -130,7 +130,7 @@ This toolkit was designed with reliability and real-world use in mind:
 - ✅ Production-ready — suitable for professional, CI/CD-integrated environments
 ___
 
-## 🛡️ Security
+## 🔐 Security
 
 Security is a core pillar of this project — not an afterthought.
 
@@ -148,7 +148,7 @@ If you discover any security vulnerabilities or have concerns:
 > This project follows responsible disclosure practices. Thank you for helping keep the ecosystem secure.
 ___
 
-## ⚙️ Requirements
+## 📋 Requirements
 
 - Python **3.9** or higher  
 - An active **Azure OpenAI** resource and deployment
@@ -261,7 +261,7 @@ response = call_azure_openai_handler(
 ```
 ___
 
-## 🖥️ CLI Usage (`rschat`)
+## 💻 CLI Usage (`rschat`)
 
 After installing the package, you can interact with Azure OpenAI directly from your terminal using:
 
