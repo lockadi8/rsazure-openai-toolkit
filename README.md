@@ -62,9 +62,103 @@
 
 ___
 
-# rsazure-openai-toolkit
+# [rsazure-openai-toolkit](https://pypi.org/project/rsazure-openai-toolkit/)
+
 
 A lightweight, independent toolkit (with CLI support) to simplify and accelerate integration with Azure OpenAI.
+___
+
+## 📚 Contents
+- [Why This Project?](#️-why-this-project)
+- [Design Principles](#-design-principles)
+- [Features](#-features)
+- [Security](#-security)
+- [Requirements](#-requirements)
+- [License](#-license)
+- [Quick Start](#-quick-start)
+- [Manual Setup](#-manual-setup-alternative)
+- [Usage](#usage)
+- [Environment Configuration](#environment-configuration)
+- [CLI Usage (`rschat`)](#-cli-usage-rschat)
+- [Developer Tools (`rschat-tools`)](#-developer-tools-rschat-tools)
+- [Possible Issues](#-possible-issues)
+- [Changelog](#-changelog)
+- [About the Author](#-about-the-author)
+- [Contact](#-contact)
+___
+
+## ❓ Why This Project?
+
+There are many tools for interacting with OpenAI — but most are either too simplistic for real-world use, or too complex and tightly coupled to specific platforms.
+
+This project was born out of the need for something in between:
+
+- 🔍 Transparent and auditable — no magic, no vendor lock-in
+- ⚙️ Flexible — can be used in scripts, production systems, or CI/CD pipelines
+- 🧩 Modular — easy to extend or integrate with other workflows
+- 🧠 Smart — includes retry logic, environment handling, and a developer-friendly CLI
+- 🧪 Lightweight — zero dependencies beyond what’s needed, no bloat
+
+Whether you're prototyping locally or running critical flows in production, this toolkit helps you do it **faster, safer, and with full control**.
+
+> Built by an engineer with real-world experience in AI, cloud, and software systems — to solve real developer problems.
+___
+
+## 🧠 Design Principles
+
+These principles define how this toolkit is designed, maintained, and expected to be used — prioritizing security, clarity, and real-world applicability:
+
+- **Security first**: No telemetry, no hidden dependencies, and full code transparency — always auditable and verifiable.
+- **Simplicity over complexity**: A minimal, no-friction interface that works out-of-the-box without overwhelming configuration.
+- **Production-readiness**: Built with reliability in mind — includes retry logic, CLI validation, and clear error handling.
+- **Explicit over implicit**: All configurations are visible and controlled; no surprises behind the scenes.
+- **Extendable by design**: Modular and adaptable for integration into larger systems and workflows.
+- **Developer & team friendly**: Works great for individuals, but also for teams needing reproducibility and onboarding ease.
+
+> These principles are not just technical choices — they're part of a commitment to making this toolkit secure, stable, and genuinely useful in professional environments.
+___
+
+## 🚀 Features
+
+This toolkit was designed with reliability and real-world use in mind:
+
+- ✅ Modular architecture — easy to integrate and extend
+- ✅ Intelligent retry mechanism with exponential backoff (via `tenacity`)
+- ✅ Fully compatible with OpenAI-style request formats
+- ✅ CLI-first design — includes `rschat` for terminal usage and `rschat-tools` for automation
+- ✅ Secure by design — no telemetry, no external data sent
+- ✅ Production-ready — suitable for professional, CI/CD-integrated environments
+___
+
+## 🛡️ Security
+
+Security is a core pillar of this project — not an afterthought.
+
+- ✅ All code is fully open, auditable, and free from telemetry or tracking
+- ✅ No data is ever sent externally — all logic executes locally and transparently
+- ✅ Direct pushes and unreviewed merges are blocked by default via GitHub branch protection
+- ✅ Releases are manually reviewed and published by the maintainer
+
+If you discover any security vulnerabilities or have concerns:
+
+- 📧 Please report privately to [renan.siqu@gmail.com](mailto:renan.siqu@gmail.com)
+- 🔍 See the full [SECURITY policy on GitHub](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/SECURITY.md).
+
+
+> This project follows responsible disclosure practices. Thank you for helping keep the ecosystem secure.
+___
+
+## ⚙️ Requirements
+
+- Python **3.9** or higher  
+- An active **Azure OpenAI** resource and deployment
+___
+
+## 📄 License
+
+This project is open source and licensed under the [MIT License](LICENSE), ensuring maximum flexibility and adoption.
+
+You are free to use it in both personal and commercial projects.
 ___
 
 ## 🧪 Quick Start
@@ -159,7 +253,10 @@ response = call_azure_openai_handler(
     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
     api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
     deployment_name=os.getenv("AZURE_DEPLOYMENT_NAME"),
-    messages=[...]
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Summarize what artificial intelligence is."}
+    ]
 )
 ```
 ___
@@ -221,28 +318,6 @@ rschat-tools samples
 ```
 
 This is the fastest way to explore real usage examples and start integrating Azure OpenAI with minimal setup.
-
-___
-
-## Features
-
-- ✅ Modular and easy to extend
-- ✅ Retry mechanism with exponential backoff
-- ✅ Accepts OpenAI-compatible parameters
-- ✅ Ready for production use
-- ✅ Comes with an intuitive CLI (`rschat`) for direct terminal interaction
-- ✅ Includes CLI assistant (`rschat-tools`) for onboarding and automation
-___
-
-## Requirements
-
-- Python 3.9+
-- Azure OpenAI resource and deployment
-___
-
-## License
-
-This project is open-sourced and available to everyone under the [MIT License](LICENSE).
 ___
 
 ### 🚨 Possible Issues
@@ -260,55 +335,30 @@ ___
   Always ensure `load_dotenv()` is called before accessing `os.getenv(...)`, especially when testing locally.
 ___
 
-## 📝 Changelog
+## 📦 Changelog
 
-Check the [Releases](https://github.com/renan-siqueira/rsazure-openai-toolkit/releases) page for updates and version history.
+We follow [semantic versioning](https://semver.org/) to ensure predictable upgrades.
 
-See the full list of changes in [CHANGELOG.md](CHANGELOG.md)
-___
-
-## 🛡️ Security
-
-If you discover any security issues, please report them privately via email: [renan.siqu@gmail.com](mailto:renan.siqu@gmail.com).
-___
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to open issues or pull requests.
-
-To contribute:
-
-1. Fork the repo
-2. Create a feature branch (`git checkout -b feature/my-feature`)
-3. Commit your changes
-4. Open a PR
-
-Please follow PEP8 and ensure your code passes existing tests.
-___
-
-## 🧠 Design Principles
-
-- Simplicity over complexity
-- Focus on production-readiness
-- Explicit configuration
-- Easy to extend and maintain
+- 🔎 Check the full [CHANGELOG.md](CHANGELOG.md) for detailed release notes
+- 📌 Visit the [Releases Page](https://github.com/renan-siqueira/rsazure-openai-toolkit/releases) to explore version history
 ___
 
 ## 👨‍💻 About the Author
 
-Hi, I'm Renan Siqueira Antonio — a technical leader in Artificial Intelligence with hands-on experience in delivering real-world AI solutions across different industries.
+I'm a software engineer with real-world experience across backend, frontend, DevOps, cloud, and AI — building solutions that are designed to last.
 
-Over the years, I've had the opportunity to collaborate with incredible teams and contribute to initiatives recognized by companies.
+Today, my passion is helping teams make AI development more accessible, maintainable, and truly production-ready — with full control, transparency, and respect for sound engineering principles.
 
-This project was born from a personal need: to create a clean, reusable, and production-ready way to interact with Azure OpenAI. I'm sharing it with the hope that it helps others move faster and build better.
+I believe that great tools should be simple, powerful, and built to empower — not to lock people in. That’s the mindset behind everything I build and share.
 ___
 
 ### 📬 Contact
 
-Feel free to reach out via:
+I'm always open to feedback, ideas, or professional collaboration.
 
 - GitHub: [github.com/renan-siqueira](https://github.com/renan-siqueira)
 - Email: [renan.siqu@gmail.com](mailto:renan.siqu@gmail.com)
-- Linkedin: [linkedin.com/in/renan-siqueira-antonio](https://www.linkedin.com/in/renan-siqueira-antonio/)
+- LinkedIn: [linkedin.com/in/renan-siqueira-antonio](https://www.linkedin.com/in/renan-siqueira-antonio/)
 
-Contributions, suggestions, and bug reports are welcome!
+Feel free to connect or open an issue.  
+Suggestions, contributions, and responsible disclosures are always welcome.
