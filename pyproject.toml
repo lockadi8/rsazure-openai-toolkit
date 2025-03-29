@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rsazure-openai-toolkit"
-version = "0.3.3"
+version = "0.4.0"
 description = "Toolkit for fast and flexible integration with Azure OpenAI"
 authors = [{ name = "Renan Siqueira Antonio", email = "renan.siqu@gmail.com" }]
 readme = "README.md"
