@@ -1,0 +1,34 @@
+import os
+from dotenv import load_dotenv
+from rsazure_openai_toolkit import call_azure_openai_handler
+
+load_dotenv()
+
+
+def chat():
+    print("🔁 Chat loop started")
+    print("💡 Type 'exit' to quit\n")
+    while True:
+        user_input = input("You: ")
+        if user_input.strip().lower() == "exit":
+            print("👋 Goodbye!")
+            break
+        if not user_input.strip():
+            continue
+
+        response = call_azure_openai_handler(
+            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+            api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
+            deployment_name=os.getenv("AZURE_DEPLOYMENT_NAME"),
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": user_input}
+            ]
+        )
+
+        print(f"Assistant: {response}\n")
+
+
+if __name__ == "__main__":
+    chat()
