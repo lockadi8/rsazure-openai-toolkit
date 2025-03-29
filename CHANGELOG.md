@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.3] - 2025-03-29
+### Changed
+- Rewritten `README.md` to improve structure, clarity, and professionalism
+- Improved section linking and emoji compatibility for better UX
+- Refactored `SECURITY.md` with clearer language and contributor guidelines
+
+### Changed
+- Bumped version to 0.3.3
+
 ## [0.3.2] - 2025-03-29
 ### Fixed
 - Removed accidental inclusion of `__pycache__` directory from the PyPI package
