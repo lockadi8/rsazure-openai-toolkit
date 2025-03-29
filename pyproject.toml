@@ -45,7 +45,9 @@ rschat-tools = "rsazure_openai_toolkit.tools_cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-exclude = ["**/__pycache__", "**/*.pyc", "**/*.pyo"]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["__pycache__/*", "*.pyc", "*.pyo"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
