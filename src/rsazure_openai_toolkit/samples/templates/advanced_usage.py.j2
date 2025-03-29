@@ -1,0 +1,26 @@
+from rsazure_openai_toolkit import call_azure_openai_handler
+
+
+def chat():
+    print("🔁 Chat loop started (Ctrl+C to exit)")
+    while True:
+        user_input = input("You: ")
+        if not user_input.strip():
+            continue
+
+        response = call_azure_openai_handler(
+            api_key="your-api-key",
+            azure_endpoint="https://your-resource.openai.azure.com/",
+            api_version="2023-12-01-preview",
+            deployment_name="your-deployment-name",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": user_input}
+            ]
+        )
+
+        print(f"Assistant: {response}\\n")
+
+
+if __name__ == \"__main__\":
+    chat()
