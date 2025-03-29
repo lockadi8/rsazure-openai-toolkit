@@ -20,16 +20,17 @@ def samples():
 
     while True:
         click.echo("\nSelect a sample to generate:")
-        click.echo("[0] Exit")
+        click.echo("\n[0] Exit")
         for key, name in options.items():
             if key != "all":
                 click.echo(f"[{key}] {name.replace('-', ' ').title()}")
-        click.echo("[all] Generate All")
+        click.echo("\n[all] Generate All")
 
-        choice = click.prompt("Enter the number of the sample", type=str)
+        choice = click.prompt("\nEnter the number of the sample", type=str)
+        click.echo()
 
         if choice == "0":
-            click.echo("👋 Exiting.")
+            click.echo("\n👋 Exiting.\n")
             break
 
         if choice == "all":

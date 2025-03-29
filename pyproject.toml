@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rsazure-openai-toolkit"
-version = "0.3.3"
+version = "0.4.0"
 description = "Toolkit for fast and flexible integration with Azure OpenAI"
 authors = [{ name = "Renan Siqueira Antonio", email = "renan.siqu@gmail.com" }]
 readme = "README.md"
@@ -16,7 +16,8 @@ dependencies = [
     "tenacity>=8.2.0",
     "python-dotenv>=1.0.0",
     "click>=8.1.0",
-    "Jinja2>=3.1.2"
+    "Jinja2>=3.1.2",
+    "tiktoken>=0.9.0"
 ]
 
 keywords = ["azure", "openai", "chatgpt", "llm", "cli", "toolkit", "prompt", "chatbot"]
