@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rsazure-openai-toolkit"
-version = "0.3.1"
+version = "0.3.2"
 description = "Toolkit for fast and flexible integration with Azure OpenAI"
 authors = [{ name = "Renan Siqueira Antonio", email = "renan.siqu@gmail.com" }]
 readme = "README.md"
@@ -45,6 +45,7 @@ rschat-tools = "rsazure_openai_toolkit.tools_cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
+exclude = ["**/__pycache__", "**/*.pyc", "**/*.pyo"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.2] - 2025-03-29
+### Fixed
+- Removed accidental inclusion of `__pycache__` directory from the PyPI package
+
+### Changed
+- Bumped version to 0.3.2
+
 ## [0.3.1] - 2025-03-29
 ### Fixed
 - Missing `.j2` templates in the distributed package, causing `rschat-tools samples` to crash on installed versions.
