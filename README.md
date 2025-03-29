@@ -155,6 +155,30 @@ rschat "Resuma o que é inteligência artificial"
 *If any required variable is missing, the CLI will exit with a clear error message.*
 ___
 
+## 🧰 Developer Tools (`rschat-tools`)
+
+The toolkit includes a companion CLI called `rschat-tools` to assist with setup and onboarding.
+
+To generate sample projects in your current directory, run:
+
+```bash
+rschat-tools samples
+```
+
+You'll see a menu like this:
+
+```
+[1] Basic Usage
+[2] Advanced Usage
+[3] Env Usage
+[4] Env + Advanced Usage
+```
+
+Choose an option, and a folder will be created inside `./samples/` containing ready-to-run scripts and configurations.
+
+This is the fastest way to explore real usage examples and start integrating Azure OpenAI with minimal setup.
+___
+
 ## Features
 
 - Modular and easy to extend
