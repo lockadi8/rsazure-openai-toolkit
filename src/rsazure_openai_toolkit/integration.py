@@ -1,9 +1,10 @@
 import logging
 from openai import AzureOpenAI
+from openai.types.chat import ChatCompletion
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-
 logger = logging.getLogger(__name__)
+
 
 def load_azure_client(*, api_key: str, azure_endpoint: str, api_version: str) -> AzureOpenAI:
     return AzureOpenAI(
@@ -24,7 +25,7 @@ def generate_response(
     azure_endpoint: str,
     api_version: str,
     **optional_args
-) -> str:
+) -> dict:
     if not messages:
         raise ValueError("Missing required parameter: 'messages' is required.")
 
@@ -35,14 +36,14 @@ def generate_response(
     )
 
     try:
-        response = client.chat.completions.create(
+        response: ChatCompletion = client.chat.completions.create(
             model=deployment_name,
             messages=messages,
             temperature=temperature,
             max_tokens=max_tokens,
             **optional_args
         )
-        return response.choices[0].message.content
+        return response
     except Exception as e:
         logger.error(f"Error calling Azure OpenAI: {e}")
         raise
