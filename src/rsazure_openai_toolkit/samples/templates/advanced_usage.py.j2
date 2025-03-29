@@ -2,9 +2,13 @@ from rsazure_openai_toolkit import call_azure_openai_handler
 
 
 def chat():
-    print("🔁 Chat loop started (Ctrl+C to exit)")
+    print("🔁 Chat loop started")
+    print("💡 Type 'exit' to quit\n")
     while True:
         user_input = input("You: ")
+        if user_input.strip().lower() == "exit":
+            print("👋 Goodbye!")
+            break
         if not user_input.strip():
             continue
 
