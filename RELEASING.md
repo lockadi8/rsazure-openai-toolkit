@@ -13,24 +13,37 @@ This guide describes the exact steps to create a new release and publish it to P
 ## 📝 2. Update Version Metadata
 
 ### pyproject.toml
-Update the version:
+Update the version and metadata:
+
 ```toml
 version = "<new_version>"
+
+[project.scripts]
+rschat = "rsazure_openai_toolkit.cli:cli"
+rschat-tools = "rsazure_openai_toolkit.tools_cli:main"
+
+[dependencies]
+Jinja2>=3.1.2
 ```
 
+Also review and update (if needed):
+- `keywords = [...]`
+- `classifiers = [...]`
+
 ### CHANGELOG.md
-At the top, add a new entry:
+At the top, add a new entry with this structure:
+
 ```md
 ## [<new_version>] - YYYY-MM-DD
 ### Added
 - List new features
 ### Changed
-- Version bumped to <new_version>
+- Bumped version to <new_version>
 ```
 
 ### README.md
-- Make sure examples and badges reflect any changes
-- Confirm `rschat` CLI usage is documented
+- Ensure any new commands or examples are included (e.g. `rschat-tools samples`)
+- Confirm version badges reflect the latest release
 
 ---
 
@@ -84,6 +97,7 @@ twine upload dist/*
 ```bash
 pip install --upgrade rsazure-openai-toolkit
 rschat "What can you do?"
+rschat-tools samples
 ```
 
 ---

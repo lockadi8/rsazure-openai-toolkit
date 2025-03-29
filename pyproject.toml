@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rsazure-openai-toolkit"
-version = "0.2.0"
+version = "0.3.0"
 description = "Toolkit for fast and flexible integration with Azure OpenAI"
 authors = [{ name = "Renan Siqueira Antonio", email = "renan.siqu@gmail.com" }]
 readme = "README.md"
@@ -15,11 +15,27 @@ dependencies = [
     "openai>=1.0.0",
     "tenacity>=8.2.0",
     "python-dotenv>=1.0.0",
-    "click>=8.1.0"
+    "click>=8.1.0",
+    "Jinja2>=3.1.2"
+]
+
+keywords = ["azure", "openai", "chatgpt", "llm", "cli", "toolkit", "prompt", "chatbot"]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Utilities"
 ]
 
 [project.scripts]
 rschat = "rsazure_openai_toolkit.cli:cli"
+rschat-tools = "rsazure_openai_toolkit.tools_cli:main"
 
 [project.urls]
 "Homepage" = "https://github.com/renan-siqueira/rsazure-openai-toolkit"
