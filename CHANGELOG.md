@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - 2025-03-30
+
+### Added
+- Modular documentation structure in `docs/`
+- Dedicated files for CLI, config, usage, logging, and troubleshooting
+- Improved `troubleshooting.md` with detailed error handling tips
+
+### Changed
+- Simplified and reorganized `README.md` for PyPI compatibility
+- Added inline official PyPI/GitHub badges next to project name
+- Improved visual layout of badge groups for clarity and aesthetics
+- Bumped version to 0.4.1
+
+### Fixed
+- Broken internal links in PyPI view (now absolute GitHub links)
+
 ## [0.4.0] - 2025-03-29
 ### Added
 - `InteractionLogger`: a flexible and transparent logging system for model interactions
