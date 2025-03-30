@@ -75,3 +75,43 @@ class SessionContext:
     def to_json(self) -> str:
         """Export current messages as JSON (optional for debug/export)."""
         return json.dumps(self.messages, indent=2, ensure_ascii=False)
+
+
+def get_context_messages(
+    user_input: str,
+    system_prompt: Optional[str],
+    deployment_name: str,
+    use_context: bool = False,
+    session_id: str = "default",
+    max_messages: Optional[int] = None,
+    max_tokens: Optional[int] = None
+) -> list[dict]:
+    """
+    Build the message list to be sent to the model, optionally using SessionContext.
+
+    Parameters:
+        user_input (str): User's input/question.
+        system_prompt (str | None): Optional system prompt to guide the assistant.
+        deployment_name (str): Azure deployment name (used for tokenizer logic).
+        use_context (bool): Whether to use SessionContext or not.
+        session_id (str): Optional session identifier (default: "default").
+        max_messages (int | None): Limit number of messages in context.
+        max_tokens (int | None): Limit total token budget for context.
+
+    Returns:
+        list[dict]: Final message list (system + user + optional history).
+    """
+    if not use_context:
+        return [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_input}
+        ]
+
+    context = SessionContext(
+        session_id=session_id,
+        max_messages=max_messages,
+        max_tokens=max_tokens,
+        deployment_name=deployment_name
+    )
+    context.add("user", user_input)
+    return context.get(system_prompt)
