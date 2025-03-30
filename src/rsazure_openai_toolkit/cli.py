@@ -3,16 +3,16 @@ import sys
 import time
 import click
 from dotenv import load_dotenv
+
 from rsazure_openai_toolkit import call_azure_openai_handler
 from rsazure_openai_toolkit.utils.token_utils import estimate_input_tokens
 from rsazure_openai_toolkit.utils.model_config_utils import get_model_config
 from rsazure_openai_toolkit.logging.interaction_logger import InteractionLogger
-from rsazure_openai_toolkit.session.context import SessionContext, get_context_messages
+from rsazure_openai_toolkit.session.context import get_context_messages
 
 
 # Load environment variables from .env in project root
 load_dotenv()
-
 
 @click.command()
 @click.argument("question", nargs=-1)
@@ -26,14 +26,23 @@ def cli(question):
     validate_env_vars()
 
     deployment_name = os.getenv("AZURE_DEPLOYMENT_NAME")
-    system_prompt = "You are a helpful assistant."
+    system_prompt = "You are a legal assistant."
 
-    messages = build_messages(user_input, system_prompt, deployment_name)
+    context_data = build_messages(user_input, system_prompt, deployment_name)
+    messages = context_data["messages"]
+    context = context_data["context"]
+
     model_config = get_model_config()
     input_tokens = estimate_input_tokens(messages, deployment_name)
 
     try:
         response, elapsed = send_request(messages, model_config)
+        response_text = response.choices[0].message.content
+
+        if context:
+            context.add("assistant", response_text)
+            context.save()
+
         print_response_info(response, input_tokens, model_config, elapsed, user_input, system_prompt)
         log_interaction_if_enabled(user_input, system_prompt, response, input_tokens, model_config, elapsed)
     except Exception as e:
@@ -55,7 +64,7 @@ def validate_env_vars():
         sys.exit(1)
 
 
-def build_messages(user_input: str, system_prompt: str, deployment_name: str) -> list[dict]:
+def build_messages(user_input: str, system_prompt: str, deployment_name: str) -> dict:
     use_context = os.getenv("RSCHAT_USE_CONTEXT", "0") == "1"
     session_id = os.getenv("RSCHAT_SESSION_ID", "default")
     max_messages = int(os.getenv("RSCHAT_CONTEXT_MAX_MESSAGES", "0") or 0)
@@ -76,11 +85,12 @@ def build_messages(user_input: str, system_prompt: str, deployment_name: str) ->
 
     if context:
         click.echo(
-            f"📚 Using SessionContext: id={context.session_id}, messages={len(context)}, "
+            f"\n📚 Using SessionContext: id={context.session_id}, messages={len(context)}, "
             f"max_messages={context.max_messages}, max_tokens={context.max_tokens}"
         )
+        click.echo(f"\n🔐 System prompt in use: \"{context.system_prompt}\"")
 
-    return messages
+    return {"messages": messages, "context": context}
 
 
 def send_request(messages: list[dict], model_config: dict):
@@ -107,8 +117,8 @@ def print_response_info(response, input_tokens: int, model_config: dict, elapsed
     total_tokens = usage.get("total_tokens", input_real + output_real)
     seed = model_config.get("seed")
 
-    click.echo(f"\nAssistant:\n\t{response_text}")
-    click.echo("\n----- REQUEST INFO -----")
+    click.echo(f"\n\nAssistant:\n\n{response_text}")
+    click.echo("\n\n----- REQUEST INFO -----")
     click.echo(f"📤 Input tokens: {input_real}")
     click.echo(f"📥 Output tokens: {output_real}")
     click.echo(f"🧾 Total tokens: {total_tokens}")

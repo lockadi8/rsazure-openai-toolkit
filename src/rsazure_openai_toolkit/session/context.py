@@ -14,7 +14,8 @@ class SessionContext:
         max_tokens: Optional[int] = None,
         deployment_name: Optional[str] = "gpt-4o",
         system_prompt: Optional[str] = None,
-        storage_path: Optional[str] = None
+        storage_path: Optional[str] = None,
+        strict_system: bool = True
     ):
         self.session_id = session_id
         self.max_messages = max_messages
@@ -27,7 +28,7 @@ class SessionContext:
         self._meta_path = base_dir / f"{session_id}.meta.json"
 
         self.messages: list[dict] = self._load_messages()
-        self.system_prompt = self._handle_system_prompt(system_prompt)
+        self.system_prompt = self._handle_system_prompt(system_prompt, strict_system)
 
     def _load_messages(self):
         if not self._file_path.exists():
@@ -35,25 +36,37 @@ class SessionContext:
         with self._file_path.open("r", encoding="utf-8") as f:
             return [json.loads(line) for line in f if line.strip()]
 
-    def _handle_system_prompt(self, incoming: Optional[str]) -> Optional[str]:
+    def _handle_system_prompt(self, incoming: Optional[str], strict: bool) -> Optional[str]:
         if not self._meta_path.exists():
-            # Primeira vez: salva o system atual
-            meta = {"system_prompt": incoming or "", "created_at": datetime.utcnow().isoformat()}
+            meta = {
+                "system_prompt": incoming or "",
+                "created_at": datetime.utcnow().isoformat()
+            }
             self._meta_path.write_text(json.dumps(meta, indent=2))
             return incoming
 
         saved = json.loads(self._meta_path.read_text())
-        saved_prompt = saved.get("system_prompt", "")
+        saved_prompt = saved.get("system_prompt", "").strip()
+        incoming = (incoming or "").strip()
 
-        if incoming is not None and incoming.strip() != saved_prompt.strip():
-            print("⚠️  Warning: this session was created with a different system prompt.")
-            print(f"🧠 Saved: \"{saved_prompt}\"\n🆕 Current: \"{incoming}\"")
-            print("💡 Tip: Use a different session ID to avoid mixing contexts.")
+        if incoming != saved_prompt:
+            print("⚠️  System prompt mismatch detected!")
+            print(f"🧠 Saved:    \"{saved_prompt}\"\n🆕 Provided: \"{incoming}\"")
+
+            if strict:
+                print("🔒 Enforcing saved prompt (strict mode).")
+                return saved_prompt
+            else:
+                print("✏️  Overriding saved prompt (non-strict mode).")
+                self._meta_path.write_text(json.dumps({
+                    "system_prompt": incoming,
+                    "updated_at": datetime.utcnow().isoformat()
+                }, indent=2))
+                return incoming
 
         return saved_prompt or incoming
 
     def save(self):
-        """Persist current context to disk."""
         with self._file_path.open("w", encoding="utf-8") as f:
             for msg in self.messages:
                 f.write(json.dumps(msg, ensure_ascii=False) + "\n")
@@ -63,9 +76,8 @@ class SessionContext:
         self._trim()
 
     def get(self, system_prompt: Optional[str] = None) -> list[dict]:
-        if system_prompt:
-            return [{"role": "system", "content": system_prompt}] + self.messages
-        return list(self.messages)
+        prompt = system_prompt or self.system_prompt
+        return [{"role": "system", "content": prompt}] + self.messages if prompt else list(self.messages)
 
     def reset(self):
         self.messages.clear()
@@ -109,7 +121,7 @@ def get_context_messages(
     max_tokens: Optional[int] = None
 ) -> dict:
     """
-    Returns a dict with 'messages' and 'context' keys.
+    Returns a dict with 'messages' and 'context'.
     """
     if not use_context:
         return {
@@ -120,14 +132,16 @@ def get_context_messages(
             "context": None
         }
 
+    strict = os.getenv("RSCHAT_OVERRIDE_SYSTEM", "0") != "1"
+
     context = SessionContext(
         session_id=session_id,
         max_messages=max_messages,
         max_tokens=max_tokens,
         deployment_name=deployment_name,
-        system_prompt=system_prompt
+        system_prompt=system_prompt,
+        strict_system=strict
     )
     context.add("user", user_input)
-    context.save()
 
-    return {"messages": context.get(context.system_prompt), "context": context}
+    return {"messages": context.get(), "context": context}
