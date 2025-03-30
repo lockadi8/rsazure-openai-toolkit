@@ -1,10 +1,10 @@
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
+
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 
 env = Environment(loader=FileSystemLoader(str(TEMPLATE_DIR)))
-
 
 def render_template(template_name: str, output_path: Path, use_stream: bool = False):
     template = env.get_template(template_name)
@@ -17,7 +17,7 @@ def render_template(template_name: str, output_path: Path, use_stream: bool = Fa
 
 
 def generate_sample(option: str):
-    output_dir = Path.cwd() / "samples" / option
+    output_dir = Path.cwd() / ".samples" / option
 
     if option == "basic-usage":
         render_template("basic_usage.py.j2", output_dir / "main.py")
