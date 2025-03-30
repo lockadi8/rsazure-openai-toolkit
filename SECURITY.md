@@ -41,6 +41,18 @@ This toolkit supports **opt-in local logging** to assist with debugging and cost
 > Configure logging via `RSCHAT_LOG_MODE` and `RSCHAT_LOG_PATH` environment variables.
 ___
 
+### 🔄 Session Context Persistence (since v0.5.0)
+
+This toolkit supports optional **context persistence** via `SessionContext`, which stores your conversation history on disk (when enabled).
+
+- Context files are saved locally as `.jsonl` and `.meta.json`
+- Includes message history, system prompt, and model configuration
+- All context storage is **opt-in**, triggered via environment variables
+- Full history is saved to a separate `.full.jsonl` file, even if context is trimmed
+
+> ⚠️ Use with care on shared machines. Avoid using sensitive data in prompts or responses if local storage is enabled.
+___
+
 ## 📣 Reporting a Vulnerability
 
 If you discover a potential security issue in this project, please **report it responsibly**:
