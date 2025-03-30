@@ -1,7 +1,7 @@
 import os
 import json
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from rsazure_openai_toolkit.utils.token_utils import estimate_input_tokens
 
@@ -41,7 +41,7 @@ class SessionContext:
         if not self._meta_path.exists():
             meta = {
                 "system_prompt": incoming or "",
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "deployment_name": self.deployment_name,
                 "max_messages": self.max_messages,
                 "max_tokens": self.max_tokens
@@ -53,16 +53,23 @@ class SessionContext:
         saved_prompt = saved.get("system_prompt", "").strip()
         incoming = (incoming or "").strip()
 
+        # Protege contra sobrescrita desnecessária em modo estrito
+        skip_override = strict and incoming == saved_prompt
+
+        if skip_override:
+            print("ℹ️ Prompt unchanged. Skipping override and backup.")
+
         if incoming != saved_prompt:
             print("⚠️  System prompt mismatch detected!")
             print(f"🧠 Saved:    \"{saved_prompt}\"\n🆕 Provided: \"{incoming}\"")
 
             if strict:
                 print("🔒 Enforcing saved prompt (strict mode).")
-            else:
+            elif not skip_override:
                 print("✏️  Overriding saved prompt (non-strict mode).")
+                self._backup_meta_file()
                 saved["system_prompt"] = incoming
-                saved["updated_at"] = datetime.utcnow().isoformat()
+                saved["updated_at"] = datetime.now(timezone.utc).isoformat()
                 self._meta_path.write_text(json.dumps(saved, indent=2))
 
         # Verificar consistência de configuração
@@ -78,6 +85,15 @@ class SessionContext:
             print("⚠️ Context config mismatch:")
             for item in mismatch:
                 print(f"  ⚙️ {item}")
+        
+        if mismatch and not strict:
+            print("📝 Updating configuration in meta file (non-strict mode).")
+            self._backup_meta_file()
+            saved["deployment_name"] = self.deployment_name
+            saved["max_messages"] = self.max_messages
+            saved["max_tokens"] = self.max_tokens
+            saved["updated_at"] = datetime.now(timezone.utc).isoformat()
+            self._meta_path.write_text(json.dumps(saved, indent=2))
 
         return saved.get("system_prompt") or incoming
 
@@ -128,6 +144,13 @@ class SessionContext:
         after = len(self.messages)
         if after < before:
             print(f"🔁 Context trimmed: {before - after} message(s) removed to fit limits")
+    
+    def _backup_meta_file(self):
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+        backup_path = self._meta_path.with_name(f"{self._meta_path.stem}.bak-{timestamp}.json")
+        if self._meta_path.exists():
+            backup_path.write_text(self._meta_path.read_text(), encoding="utf-8")
+            print(f"📂 Backup created: {backup_path}")
 
     def __len__(self):
         return len(self.messages)

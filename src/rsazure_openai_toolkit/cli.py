@@ -26,7 +26,7 @@ def cli(question):
     validate_env_vars()
 
     deployment_name = os.getenv("AZURE_DEPLOYMENT_NAME")
-    system_prompt = "You are a scientific AI."
+    system_prompt = "You are a happy assistant."
 
     context_data = build_messages(user_input, system_prompt, deployment_name)
     messages = context_data["messages"]
