@@ -26,6 +26,7 @@ class SessionContext:
         base_dir.mkdir(parents=True, exist_ok=True)
         self._file_path = base_dir / f"{session_id}.jsonl"
         self._meta_path = base_dir / f"{session_id}.meta.json"
+        self._full_path = base_dir / f"{session_id}.full.jsonl"
 
         self.messages: list[dict] = self._load_messages()
         self.system_prompt = self._handle_system_prompt(system_prompt, strict_system)
@@ -40,7 +41,10 @@ class SessionContext:
         if not self._meta_path.exists():
             meta = {
                 "system_prompt": incoming or "",
-                "created_at": datetime.utcnow().isoformat()
+                "created_at": datetime.utcnow().isoformat(),
+                "deployment_name": self.deployment_name,
+                "max_messages": self.max_messages,
+                "max_tokens": self.max_tokens
             }
             self._meta_path.write_text(json.dumps(meta, indent=2))
             return incoming
@@ -55,24 +59,41 @@ class SessionContext:
 
             if strict:
                 print("🔒 Enforcing saved prompt (strict mode).")
-                return saved_prompt
             else:
                 print("✏️  Overriding saved prompt (non-strict mode).")
-                self._meta_path.write_text(json.dumps({
-                    "system_prompt": incoming,
-                    "updated_at": datetime.utcnow().isoformat()
-                }, indent=2))
-                return incoming
+                saved["system_prompt"] = incoming
+                saved["updated_at"] = datetime.utcnow().isoformat()
+                self._meta_path.write_text(json.dumps(saved, indent=2))
 
-        return saved_prompt or incoming
+        # Verificar consistência de configuração
+        mismatch = []
+        if saved.get("max_messages") != self.max_messages:
+            mismatch.append(f"max_messages: saved={saved.get('max_messages')} current={self.max_messages}")
+        if saved.get("max_tokens") != self.max_tokens:
+            mismatch.append(f"max_tokens: saved={saved.get('max_tokens')} current={self.max_tokens}")
+        if saved.get("deployment_name") != self.deployment_name:
+            mismatch.append(f"deployment: saved={saved.get('deployment_name')} current={self.deployment_name}")
+
+        if mismatch:
+            print("⚠️ Context config mismatch:")
+            for item in mismatch:
+                print(f"  ⚙️ {item}")
+
+        return saved.get("system_prompt") or incoming
 
     def save(self):
         with self._file_path.open("w", encoding="utf-8") as f:
             for msg in self.messages:
                 f.write(json.dumps(msg, ensure_ascii=False) + "\n")
 
+    def _append_to_full_history(self, msg: dict):
+        with self._full_path.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(msg, ensure_ascii=False) + "\n")
+
     def add(self, role: str, content: str):
-        self.messages.append({"role": role, "content": content})
+        msg = {"role": role, "content": content}
+        self.messages.append(msg)
+        self._append_to_full_history(msg)
         self._trim()
 
     def get(self, system_prompt: Optional[str] = None) -> list[dict]:
@@ -95,11 +116,18 @@ class SessionContext:
             raise IndexError(f"Invalid index: {index}. Valid range: 0 to {len(self.messages) - 1}")
 
     def _trim(self):
+        before = len(self.messages)
+
         if self.max_messages is not None:
             self.messages = self.messages[-self.max_messages:]
+
         if self.max_tokens is not None:
             while estimate_input_tokens(self.messages, self.deployment_name) > self.max_tokens and len(self.messages) > 1:
                 self.messages.pop(0)
+
+        after = len(self.messages)
+        if after < before:
+            print(f"🔁 Context trimmed: {before - after} message(s) removed to fit limits")
 
     def __len__(self):
         return len(self.messages)

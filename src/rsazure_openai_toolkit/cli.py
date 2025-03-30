@@ -19,14 +19,14 @@ load_dotenv()
 def cli(question):
     """Send a question to Azure OpenAI and print the response with token usage."""
     if not question:
-        click.echo("⚠️  Please provide a question to ask the model.")
+        click.echo("\n⚠️  Please provide a question to ask the model.\n")
         sys.exit(1)
 
     user_input = " ".join(question)
     validate_env_vars()
 
     deployment_name = os.getenv("AZURE_DEPLOYMENT_NAME")
-    system_prompt = "You are a legal assistant."
+    system_prompt = "You are a scientific AI."
 
     context_data = build_messages(user_input, system_prompt, deployment_name)
     messages = context_data["messages"]
@@ -46,7 +46,7 @@ def cli(question):
         print_response_info(response, input_tokens, model_config, elapsed, user_input, system_prompt)
         log_interaction_if_enabled(user_input, system_prompt, response, input_tokens, model_config, elapsed)
     except Exception as e:
-        click.echo(f"❌ Error processing your question: {e}")
+        click.echo(f"\n❌ Error processing your question: {e}\n")
         sys.exit(1)
 
 
@@ -59,8 +59,8 @@ def validate_env_vars():
     ]
     missing = [var for var in required if not os.getenv(var)]
     if missing:
-        click.echo(f"❌ Missing required environment variables: {', '.join(missing)}")
-        click.echo("💡 Make sure your .env file is in the project root and properly configured.")
+        click.echo(f"\n❌ Missing required environment variables: {', '.join(missing)}")
+        click.echo("💡 Make sure your .env file is in the project root and properly configured.\n")
         sys.exit(1)
 
 
@@ -84,11 +84,11 @@ def build_messages(user_input: str, system_prompt: str, deployment_name: str) ->
     messages = context_data["messages"]
 
     if context:
-        click.echo(
-            f"\n📚 Using SessionContext: id={context.session_id}, messages={len(context)}, "
-            f"max_messages={context.max_messages}, max_tokens={context.max_tokens}"
-        )
-        click.echo(f"\n🔐 System prompt in use: \"{context.system_prompt}\"")
+        num_prev_msgs = len(context.messages) - 1 if context.messages else 0
+        click.echo(f"\n📚 Loaded context: {num_prev_msgs} previous message(s)")
+        click.echo("➕ Added user input")
+        click.echo(f"📦 Total now: {len(context)} message(s)")
+        click.echo(f"🔐 System prompt in use: \"{context.system_prompt}\"")
 
     return {"messages": messages, "context": context}
 
