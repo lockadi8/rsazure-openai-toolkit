@@ -61,10 +61,7 @@ def build_messages(user_input: str, system_prompt: str, deployment_name: str) ->
     max_messages = int(os.getenv("RSCHAT_CONTEXT_MAX_MESSAGES", "0") or 0)
     max_tokens = int(os.getenv("RSCHAT_CONTEXT_MAX_TOKENS", "0") or 0)
 
-    if use_context:
-        click.echo(f"📚 Using SessionContext: id={session_id}, max_messages={max_messages}, max_tokens={max_tokens}")
-
-    return get_context_messages(
+    context_data = get_context_messages(
         user_input=user_input,
         system_prompt=system_prompt,
         deployment_name=deployment_name,
@@ -73,6 +70,17 @@ def build_messages(user_input: str, system_prompt: str, deployment_name: str) ->
         max_messages=max_messages or None,
         max_tokens=max_tokens or None
     )
+
+    context = context_data["context"]
+    messages = context_data["messages"]
+
+    if context:
+        click.echo(
+            f"📚 Using SessionContext: id={context.session_id}, messages={len(context)}, "
+            f"max_messages={context.max_messages}, max_tokens={context.max_tokens}"
+        )
+
+    return messages
 
 
 def send_request(messages: list[dict], model_config: dict):
