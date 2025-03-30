@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 ___
 
+## [0.5.1] - 2025-03-30
+
+### Added
+- Added `__version__ = "0.5.1"` to the main `__init__.py` file
+  - Enables programmatic access via `rsazure_openai_toolkit.__version__`
+
+### Changed
+- Bumped version to 0.5.1
+___
+
 ## [0.5.0] - 2025-03-30
 
 ### Added
