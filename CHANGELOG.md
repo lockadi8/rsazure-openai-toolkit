@@ -1,6 +1,29 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+___
+
+## [0.5.0] - 2025-03-30
+
+### Added
+- `SessionContext`: full support for context window management with automatic disk persistence
+  - Saves message history per session (via `session_id`)
+  - Supports context trimming by message count (`max_messages`) or token budget (`max_tokens`)
+  - Automatically emits user warnings when trimming occurs
+  - Metadata file (`.meta.json`) tracks system prompt, creation time, and session config
+  - Auto-backup of `meta.json` before overriding system prompt or config
+  - Full history stored in `.full.jsonl`, even if trimmed from active context
+  - Integrated with CLI (`rschat`) via environment variables
+- New documentation file: `docs/session_context.md`
+
+### Changed
+- `rschat` CLI now prints:
+  - Previous message count and total context size when using session
+  - Active system prompt from the loaded context
+  - Config mismatch alerts (e.g., deployment or token limits)
+  - Enhanced safety checks for accidental system prompt or config overrides
+- Bumped version to 0.5.0
+___
 
 ## [0.4.1] - 2025-03-30
 
@@ -17,6 +40,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Broken internal links in PyPI view (now absolute GitHub links)
+___
 
 ## [0.4.0] - 2025-03-29
 ### Added
@@ -54,7 +78,7 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 - Implicit logging behavior — users must now explicitly enable it
-
+___
 
 ## [0.3.3] - 2025-03-29
 ### Added
@@ -64,6 +88,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Bumped version to 0.3.3
+___
 
 ## [0.3.2] - 2025-03-29
 ### Fixed
@@ -71,6 +96,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Bumped version to 0.3.2
+___
 
 ## [0.3.1] - 2025-03-29
 ### Fixed
@@ -78,6 +104,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Bumped version to 0.3.1
+___
 
 ## [0.3.0] - 2025-03-29
 ### Added
@@ -92,6 +119,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Bumped version to 0.3.0
+___
 
 ## [0.2.0] - 2025-03-28
 ### Added
@@ -101,6 +129,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Bumped version to 0.2.0
+___
 
 ## [0.1.3] - 2025-03-24
 ### Changed
@@ -108,6 +137,7 @@ All notable changes to this project will be documented in this file.
 - Added `SECURITY.md` file and linked in `pyproject.toml`
 - Updated project metadata (`project.urls`) in `pyproject.toml`
 - Bumped version to 0.1.3
+___
 
 ## [0.1.2] - 2025-03-24
 ### Added
@@ -116,6 +146,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Bumped version to 0.1.2
+___
 
 ## [0.1.1] - 2025-03-23
 ### Fixed
@@ -126,6 +157,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Bumped version to 0.1.1
+___
 
 ## [0.1.0] - 2025-03-23
 ### Added

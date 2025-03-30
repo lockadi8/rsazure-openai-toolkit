@@ -64,6 +64,7 @@ ___
 - [Usage & Environment Setup](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/usage.md)
 - [CLI Reference (`rschat` & `rschat-tools`)](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/cli.md)
 - [Model Configuration](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/config.md)
+- [Session Context & Conversation History](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/session_context.md)
 - [Logging & Token Tracking](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/logging.md)
 - [Troubleshooting](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/troubleshooting.md)
 - [Security Policy](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/SECURITY.md)
