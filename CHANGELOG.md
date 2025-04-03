@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 ___
 
+## [0.5.2] - 2025-04-03
+
+### Fixed
+- Fixed issue where environment variable changes in `.env` were not reflected on subsequent executions of `rschat`.
+  - Now uses `load_dotenv(override=True)` to ensure latest `.env` values are always respected
+- Updated sample templates (`.j2`) to also use `load_dotenv(override=True)`
+
+### Changed
+- Bumped version to 0.5.2
+___
+
 ## [0.5.1] - 2025-03-30
 
 ### Added
