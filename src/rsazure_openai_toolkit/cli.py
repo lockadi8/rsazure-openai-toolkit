@@ -12,7 +12,7 @@ from rsazure_openai_toolkit.session.context import get_context_messages
 
 
 # Load environment variables from .env in project root
-load_dotenv()
+load_dotenv(override=True)
 
 @click.command()
 @click.argument("question", nargs=-1)

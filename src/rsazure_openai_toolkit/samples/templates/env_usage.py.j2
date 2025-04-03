@@ -6,7 +6,7 @@ from rsazure_openai_toolkit.utils.model_config_utils import get_model_config
 from rsazure_openai_toolkit.logging.interaction_logger import InteractionLogger
 
 
-load_dotenv()
+load_dotenv(override=True)
 
 messages = [
     {"role": "system", "content": "You are a helpful assistant."},
