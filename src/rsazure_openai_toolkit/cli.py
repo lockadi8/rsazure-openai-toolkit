@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from rsazure_openai_toolkit import call_azure_openai_handler
 from rsazure_openai_toolkit.logging.interaction_logger import InteractionLogger
 from rsazure_openai_toolkit.session.context import get_context_messages
-from rsazure_openai_toolkit.utils.utils import estimate_input_tokens, get_model_config
+from rsazure_openai_toolkit.utils import estimate_input_tokens, get_model_config
 
 
 # Load environment variables from .env in project root

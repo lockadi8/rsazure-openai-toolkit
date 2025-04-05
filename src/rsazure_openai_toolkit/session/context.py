@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional
-from rsazure_openai_toolkit.utils.utils import estimate_input_tokens
+from rsazure_openai_toolkit.utils import estimate_input_tokens
 
 
 class SessionContext:
