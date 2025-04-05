@@ -2,16 +2,8 @@ import os
 import sys
 import time
 import click
-from dotenv import load_dotenv
+import rsazure_openai_toolkit as rschat
 
-from rsazure_openai_toolkit import call_azure_openai_handler
-from rsazure_openai_toolkit.logging.interaction_logger import InteractionLogger
-from rsazure_openai_toolkit.session.context import get_context_messages
-from rsazure_openai_toolkit.utils import estimate_input_tokens, get_model_config
-
-
-# Load environment variables from .env in project root
-load_dotenv(override=True)
 
 @click.command()
 @click.argument("question", nargs=-1)
@@ -21,120 +13,103 @@ def cli(question):
         click.echo("\n⚠️  Please provide a question to ask the model.\n")
         sys.exit(1)
 
+    rschat.load_env()
     user_input = " ".join(question)
-    validate_env_vars()
+    execute_cli_flow(user_input)
 
-    deployment_name = os.getenv("AZURE_DEPLOYMENT_NAME")
-    system_prompt = "You are a happy assistant."
 
-    context_data = build_messages(user_input, system_prompt, deployment_name)
-    messages = context_data["messages"]
-    context = context_data["context"]
+def execute_cli_flow(user_input: str):
+    config = get_cli_config()
+    context_data = rschat.get_context_messages(user_input=user_input)
+    messages, context = context_data["messages"], context_data["context"]
+    context_info = context_data.get("context_info")
 
-    model_config = get_model_config()
-    input_tokens = estimate_input_tokens(messages, deployment_name)
+    model_config_obj = rschat.ModelConfig()
+    model_config = model_config_obj.as_dict()
+
+    input_tokens = rschat.estimate_input_tokens(
+        messages=messages,
+        deployment_name=config["deployment_name"]
+    )
 
     try:
-        response, elapsed = send_request(messages, model_config)
-        response_text = response.choices[0].message.content
+        start = time.time()
+        response = rschat.main(
+            api_key=config["api_key"],
+            azure_endpoint=config["endpoint"],
+            api_version=config["version"],
+            deployment_name=config["deployment_name"],
+            messages=messages,
+            **model_config
+        )
+        elapsed = round(time.time() - start, 2)
 
+        response_text = response.choices[0].message.content
         if context:
             context.add("assistant", response_text)
             context.save()
 
-        print_response_info(response, input_tokens, model_config, elapsed, user_input, system_prompt)
-        log_interaction_if_enabled(user_input, system_prompt, response, input_tokens, model_config, elapsed)
+        result = build_result(
+            user_input=user_input,
+            response=response,
+            model_config=model_config,
+            input_tokens=input_tokens,
+            elapsed=elapsed,
+            system_prompt=config["system_prompt"]
+        )
+
+        if context_info:
+            click.echo("\n----- CONTEXT INFO -----")
+            click.echo(context_info.summary())
+        elif os.getenv("RSCHAT_USE_CONTEXT", "0") == "1":
+            click.echo("\n📭 No previous context loaded.")
+
+        result.print()
+        log_result_if_enabled(result)
+
     except Exception as e:
         click.echo(f"\n❌ Error processing your question: {e}\n")
         sys.exit(1)
 
 
-def validate_env_vars():
-    required = [
-        "AZURE_OPENAI_API_KEY",
-        "AZURE_OPENAI_ENDPOINT",
-        "AZURE_OPENAI_API_VERSION",
-        "AZURE_DEPLOYMENT_NAME"
-    ]
-    missing = [var for var in required if not os.getenv(var)]
+def get_cli_config(*, overrides: dict = None) -> dict:
+    required = {
+        "AZURE_OPENAI_API_KEY": "api_key",
+        "AZURE_OPENAI_ENDPOINT": "endpoint",
+        "AZURE_OPENAI_API_VERSION": "version",
+        "AZURE_DEPLOYMENT_NAME": "deployment_name"
+    }
+
+    config = {}
+    missing = []
+    for env_var, key in required.items():
+        value = os.getenv(env_var)
+        if not value:
+            missing.append(env_var)
+        else:
+            config[key] = value
+
     if missing:
         click.echo(f"\n❌ Missing required environment variables: {', '.join(missing)}")
-        click.echo("💡 Make sure your .env file is in the project root and properly configured.\n")
+        click.echo("💡 Make sure your .env file is configured correctly.\n")
         sys.exit(1)
 
+    config["system_prompt"] = os.getenv("RSCHAT_SYSTEM_PROMPT", "You are a happy assistant.")
 
-def build_messages(user_input: str, system_prompt: str, deployment_name: str) -> dict:
-    use_context = os.getenv("RSCHAT_USE_CONTEXT", "0") == "1"
-    session_id = os.getenv("RSCHAT_SESSION_ID", "default")
-    max_messages = int(os.getenv("RSCHAT_CONTEXT_MAX_MESSAGES", "0") or 0)
-    max_tokens = int(os.getenv("RSCHAT_CONTEXT_MAX_TOKENS", "0") or 0)
+    if overrides:
+        config.update(overrides)
 
-    context_data = get_context_messages(
-        user_input=user_input,
-        system_prompt=system_prompt,
-        deployment_name=deployment_name,
-        use_context=use_context,
-        session_id=session_id,
-        max_messages=max_messages or None,
-        max_tokens=max_tokens or None
-    )
-
-    context = context_data["context"]
-    messages = context_data["messages"]
-
-    if context:
-        num_prev_msgs = len(context.messages) - 1 if context.messages else 0
-        click.echo(f"\n📚 Loaded context: {num_prev_msgs} previous message(s)")
-        click.echo("➕ Added user input")
-        click.echo(f"📦 Total now: {len(context)} message(s)")
-        click.echo(f"🔐 System prompt in use: \"{context.system_prompt}\"")
-
-    return {"messages": messages, "context": context}
+    return config
 
 
-def send_request(messages: list[dict], model_config: dict):
-    start_time = time.time()
-    response = call_azure_openai_handler(
-        api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-        azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-        api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
-        deployment_name=os.getenv("AZURE_DEPLOYMENT_NAME"),
-        messages=messages,
-        **model_config
-    )
-    elapsed = round(time.time() - start_time, 2)
-    return response, elapsed
-
-
-def print_response_info(response, input_tokens: int, model_config: dict, elapsed: float, user_input: str, system_prompt: str):
-    response_text = response.choices[0].message.content
-    usage = response.usage.model_dump() if response.usage else {}
-    model_used = response.model
-
-    input_real = usage.get("prompt_tokens", input_tokens)
-    output_real = usage.get("completion_tokens", len(response_text.split()))
-    total_tokens = usage.get("total_tokens", input_real + output_real)
-    seed = model_config.get("seed")
-
-    click.echo(f"\n\nAssistant:\n\n{response_text}")
-    click.echo("\n\n----- REQUEST INFO -----")
-    click.echo(f"📤 Input tokens: {input_real}")
-    click.echo(f"📥 Output tokens: {output_real}")
-    click.echo(f"🧾 Total tokens: {total_tokens}")
-    click.echo(f"🧠 Model: {model_used}")
-    click.echo(f"🎲 Seed: {seed}")
-    click.echo(f"⏱️ Time: {elapsed}s\n")
-
-
-def log_interaction_if_enabled(user_input, system_prompt, response, input_tokens, model_config, elapsed):
-    log_mode = os.getenv("RSCHAT_LOG_MODE")
-    log_path = os.getenv("RSCHAT_LOG_PATH")
-    logger = InteractionLogger(mode=log_mode, path=log_path)
-
-    if not logger.enabled:
-        click.echo("📭 Logging is disabled (RSCHAT_LOG_MODE is 'none' or not configured)\n")
-        return
-
+def build_result(
+    user_input: str,
+    response,
+    model_config: dict,
+    input_tokens: int,
+    elapsed: float,
+    system_prompt: str
+) -> rschat.ChatResult:
     usage = response.usage.model_dump() if response.usage else {}
     response_text = response.choices[0].message.content
 
@@ -142,17 +117,26 @@ def log_interaction_if_enabled(user_input, system_prompt, response, input_tokens
     output_real = usage.get("completion_tokens", len(response_text.split()))
     total = usage.get("total_tokens", input_real + output_real)
 
-    logger.log({
-        "question": user_input,
-        "response": response_text,
-        "system_prompt": system_prompt,
-        "input_tokens_estimated": input_tokens,
-        "output_tokens_estimated": output_real,
-        "input_tokens": input_real,
-        "output_tokens": output_real,
-        "total_tokens": total,
-        "model": response.model,
-        "elapsed_time": elapsed,
-        "model_config": model_config,
-        "raw_response": response.model_dump()
-    })
+    return rschat.ChatResult(
+        question=user_input,
+        response_text=response_text,
+        system_prompt=system_prompt,
+        model=response.model,
+        seed=model_config.get("seed"),
+        input_tokens=input_real,
+        output_tokens=output_real,
+        total_tokens=total,
+        elapsed_time=elapsed,
+        model_config=model_config,
+        raw_response=response.model_dump()
+    )
+
+
+def log_result_if_enabled(result: rschat.ChatResult):
+    logger = rschat.get_logger()
+
+    if not logger.enabled:
+        click.echo("📭 Logging is disabled (RSCHAT_LOG_MODE is 'none' or not configured)\n")
+        return
+
+    logger.log(result.to_log_dict())
