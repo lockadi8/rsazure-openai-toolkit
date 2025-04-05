@@ -18,8 +18,8 @@ class SessionContext:
         strict_system: bool = True
     ):
         self.session_id = session_id
-        self.max_messages = max_messages
-        self.max_tokens = max_tokens
+        self.max_messages = None if max_messages == 0 else max_messages
+        self.max_tokens = None if max_tokens == 0 else max_tokens
         self.deployment_name = deployment_name
 
         base_dir = Path(storage_path or os.getenv("RSCHAT_CONTEXT_PATH", "~/.rschat_history")).expanduser()
