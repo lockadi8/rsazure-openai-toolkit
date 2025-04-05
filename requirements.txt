@@ -1,1 +1,0 @@
-rsazure-openai-toolkit==0.1.2
