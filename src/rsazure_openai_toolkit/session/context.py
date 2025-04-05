@@ -3,8 +3,7 @@ import json
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional
-from rsazure_openai_toolkit.utils import estimate_input_tokens
-
+import rsazure_openai_toolkit as rschat
 
 class SessionContext:
     def __init__(
@@ -138,7 +137,7 @@ class SessionContext:
             self.messages = self.messages[-self.max_messages:]
 
         if self.max_tokens is not None:
-            while estimate_input_tokens(self.messages, self.deployment_name) > self.max_tokens and len(self.messages) > 1:
+            while rschat.estimate_input_tokens(messages=self.messages, deployment_name=self.deployment_name) > self.max_tokens and len(self.messages) > 1:
                 self.messages.pop(0)
 
         after = len(self.messages)
@@ -164,23 +163,34 @@ class SessionContext:
 
 def get_context_messages(
     user_input: str,
-    system_prompt: Optional[str],
-    deployment_name: str,
-    use_context: bool = False,
-    session_id: str = "default",
+    system_prompt: Optional[str] = None,
+    deployment_name: Optional[str] = None,
+    use_context: Optional[bool] = None,
+    session_id: Optional[str] = None,
     max_messages: Optional[int] = None,
     max_tokens: Optional[int] = None
 ) -> dict:
     """
-    Returns a dict with 'messages' and 'context'.
+    Returns a dict with 'messages', 'context' and 'context_info'.
+    Automatically loads values from environment if not provided.
     """
+
+    use_context = use_context if use_context is not None else os.getenv("RSCHAT_USE_CONTEXT", "0") == "1"
+    session_id = session_id or os.getenv("RSCHAT_SESSION_ID", "default")
+    deployment_name = deployment_name or os.getenv("AZURE_DEPLOYMENT_NAME", "gpt-3.5-turbo")
+    system_prompt = system_prompt or os.getenv("RSCHAT_SYSTEM_PROMPT", "You are a helpful assistant.")
+
+    max_messages = max_messages if max_messages is not None else int(os.getenv("RSCHAT_CONTEXT_MAX_MESSAGES", "0") or 0) or None
+    max_tokens = max_tokens if max_tokens is not None else int(os.getenv("RSCHAT_CONTEXT_MAX_TOKENS", "0") or 0) or None
+
     if not use_context:
         return {
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_input}
             ],
-            "context": None
+            "context": None,
+            "context_info": None
         }
 
     strict = os.getenv("RSCHAT_OVERRIDE_SYSTEM", "0") != "1"
@@ -195,4 +205,15 @@ def get_context_messages(
     )
     context.add("user", user_input)
 
-    return {"messages": context.get(), "context": context}
+    context_info = rschat.ContextInfo(
+        session_id=session_id,
+        num_previous=len(context.messages) - 1 if context.messages else 0,
+        total_messages=len(context),
+        system_prompt=context.system_prompt
+    )
+
+    return {
+        "messages": context.get(),
+        "context": context,
+        "context_info": context_info
+    }
