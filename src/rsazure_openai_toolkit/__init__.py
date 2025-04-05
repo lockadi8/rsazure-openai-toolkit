@@ -24,6 +24,10 @@ Top-level exports available when importing as `import rsazure_openai_toolkit as 
 - rschat.InteractionLogger(...)
 - rschat.get_logger(...)
 
+# CLI Entrypoints
+- rschat.cli(...)
+- rschat.main_cli_tools(...)
+
 # Results and metadata
 - rschat.ChatResult(...)
 - rschat.ContextInfo(...)
@@ -49,6 +53,9 @@ from .session import SessionContext, get_context_messages
 # Logging
 from .logging import InteractionLogger, get_logger
 
+# CLI entrypoints
+from .cli import cli, tools_main
+
 # Result models
 from .models import ChatResult, ContextInfo
 
@@ -72,6 +79,10 @@ __all__ = [
     # Logging
     "InteractionLogger",
     "get_logger",
+
+    # CLI entrypoints
+    "cli",
+    "tools_main",
 
     # Result and metadata representations
     "ChatResult",

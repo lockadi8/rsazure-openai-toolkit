@@ -26,9 +26,9 @@ class ToolsCLI:
     def __init__(self):
         self.options: List[SampleOption] = [
             SampleOption("1", "basic-usage"),
-            SampleOption("2", "advanced-usage"),
+            SampleOption("2", "chat-loop-usage"),
             SampleOption("3", "env-usage"),
-            SampleOption("4", "env-advanced-usage"),
+            SampleOption("4", "env-chat-loop-usage"),
         ]
 
     def run(self):

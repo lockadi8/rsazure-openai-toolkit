@@ -37,7 +37,7 @@ classifiers = [
 
 [project.scripts]
 rschat = "rsazure_openai_toolkit.cli:cli"
-rschat-tools = "rsazure_openai_toolkit.tools_cli:main"
+rschat-tools = "rsazure_openai_toolkit.cli.tools:main"
 
 [project.urls]
 "Homepage" = "https://github.com/renan-siqueira/rsazure-openai-toolkit"
