@@ -30,7 +30,7 @@ ___
 If you call `get_model_config()` with no arguments, you get:
 
 ```python
-from rsazure_openai_toolkit.utils.model_config_utils import get_model_config
+from rsazure_openai_toolkit.utils.utils import get_model_config
 
 model_config = get_model_config()
 
