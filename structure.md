@@ -16,21 +16,23 @@
     └── rsazure_openai_toolkit
         ├── __init__.py
         ├── cli.py
-        ├── handler.py
-        ├── integration.py
+        ├── core.py
+        ├── context_info.py
+        ├── env_config.py
+        ├── results.py
         ├── tools_cli.py
+        ├── utils.py
+        ├── model_config
+        │   └── model_config.py
         ├── logging
         │   └── interaction_logger.py
         ├── samples
         │   ├── generator.py
         │   └── templates
-        │       ├── advanced_usage.py.j2
+        │       ├── chat_loop_usage.py.j2
         │       ├── basic_usage.py.j2
-        │       ├── env_advanced_usage.py.j2
+        │       ├── env_chat_loop_usage.py.j2
         │       ├── env_usage.py.j2
         │       └── env.example.py.j2
         ├── session
         │   └── context.py
-        └── utils
-            ├── model_config_utils.py
-            └── token_utils.py
