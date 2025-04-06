@@ -24,6 +24,15 @@ Each session creates files in the path defined by `RSCHAT_CONTEXT_PATH` (default
 - `session_id.meta.json`: metadata with prompt and config
 - `session_id.meta.bak-<timestamp>.json`: backups of previous metadata
 
+The `meta.json` file includes:
+
+- The `system_prompt` used
+- The `deployment_name` for tokenizer/model matching
+- The limits (`max_messages`, `max_tokens`)
+- Creation and update timestamps
+
+Backups (`.bak-*.json`) are created automatically when changes are detected.
+
 ---
 
 ## CLI Usage
@@ -100,14 +109,26 @@ This does not affect the `.full.jsonl` file — your entire conversation is alwa
 ## Programmatic Use
 
 ```python
-from rsazure_openai_toolkit.session.context import SessionContext
+import rsazure_openai_toolkit as rschat
 
-ctx = SessionContext(session_id="my_sess", max_messages=5)
+ctx = rschat.SessionContext(session_id="my_sess", max_messages=5)
 ctx.add("user", "Hello")
 ctx.add("assistant", "Hi there!")
 ctx.save()
 
 print(ctx.get())
+```
+
+You can also generate a summary using `ContextInfo`:
+
+```python
+info = rschat.ContextInfo(
+    session_id=ctx.session_id,
+    num_previous=len(ctx) - 1,
+    total_messages=len(ctx),
+    system_prompt=ctx.system_prompt
+)
+print(info.summary())
 ```
 
 ---
@@ -122,3 +143,10 @@ print(ctx.get())
 | `RSCHAT_CONTEXT_MAX_TOKENS`  | Max tokens allowed in active context                 |
 | `RSCHAT_OVERRIDE_SYSTEM`     | Allow system prompt/config override with backup      |
 | `RSCHAT_CONTEXT_PATH`        | Custom directory for session files                   |
+
+---
+
+📚 See also:
+- [CLI Usage](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/cli.md)
+- [Logging](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/logging.md)
+- [Model Configuration](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/config.md)

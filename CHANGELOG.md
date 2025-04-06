@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 ___
 
+## [0.6.1] - 2025-04-05
+
+### Changed
+- Updated all documentation files in `docs/` to reflect the new architecture introduced in v0.6.0
+  - Replaced usage of `call_azure_openai_handler()` with `main()` and `generate_response()`
+  - Unified examples under `import rsazure_openai_toolkit as rschat`
+  - Improved examples with `SessionContext`, `get_model_config()`, and `InteractionLogger`
+  - Refined security policy with threat model, data boundaries, and architecture principles
+- Rewrote `README.md` to include v0.6.0 highlights, `rschat` import style, sample links, and improved positioning
+- Standardized absolute documentation links across files (for GitHub and PyPI compatibility)
+- Bumped version to 0.6.1
+___
+
 ## [0.6.0] - 2025-04-05
 
 ### Added
