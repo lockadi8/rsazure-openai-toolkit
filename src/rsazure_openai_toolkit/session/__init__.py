@@ -8,7 +8,7 @@ Exports:
 - get_context_messages(): Builds the message list for each interaction.
 """
 
-from .context import SessionContext, get_context_messages
+from .session import SessionContext, get_context_messages
 
 
 __all__ = [
