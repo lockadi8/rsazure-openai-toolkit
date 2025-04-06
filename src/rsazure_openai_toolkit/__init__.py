@@ -33,7 +33,15 @@ Top-level exports available when importing as `import rsazure_openai_toolkit as 
 - rschat.ContextInfo(...)
 """
 
-__version__ = "0.5.2"
+__version__ = "0.6.0"
+__description__ = "A fast, modular, secure, and auditable toolkit to integrate with Azure OpenAI — with a friendly CLI and dev-first architecture."
+__author__ = "Renan Siqueira Antonio"
+__license__ = "MIT"
+__status__ = "Beta"
+__url__ = "https://github.com/renan-siqueira/rsazure-openai-toolkit"
+__docs__ = "https://github.com/renan-siqueira/rsazure-openai-toolkit/tree/main/docs"
+__security_policy_url__ = "https://github.com/renan-siqueira/rsazure-openai-toolkit/security/policy"
+
 
 # Core interaction
 from .core import main, generate_response
