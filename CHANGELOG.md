@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 ___
 
+## [0.6.0] - 2025-04-05
+
+### Added
+- Introduced a fully modular architecture under `src/rsazure_openai_toolkit/`, with well-defined packages: `core/`, `cli/`, `env/`, `model_config/`, `models/`, `session/`, `samples/`, `utils/`
+- Created `ChatCLI` and `ToolsCLI` classes to encapsulate the logic of `rschat` and `rschat-tools` commands
+- Added `ModelConfig` class and enhanced `get_model_config()` function for flexible, reproducible model parameter configuration
+- Introduced `ContextInfo` and `ChatResult` as structured output representations in the `models/` module
+- Session manager now supports full history via `.full.jsonl`, backup of metadata, and safe system prompt/config overrides
+
+### Changed
+- Refactored all CLI logic into object-oriented classes (`cli.py`, `tools.py`)
+- Centralized helper functions in a single `utils/` module
+- Renamed sample templates to a clearer format (`chat_loop_usage.py.j2`, etc.)
+- Updated `pyproject.toml` to reflect new package structure and layout
+- Improved CLI feedback: now prints context load info, system prompt in use, token usage, and fallback logging status
+- Bumped version to 0.6.0
+
+### Removed
+- Removed deprecated and fragmented files: `handler.py`, `integration.py`, `token_utils.py`, `model_config_utils.py`
+___
+
 ## [0.5.2] - 2025-04-03
 
 ### Fixed

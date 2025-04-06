@@ -22,16 +22,16 @@ def generate_sample(option: str):
     if option == "basic-usage":
         render_template("basic_usage.py.j2", output_dir / "main.py")
 
-    elif option == "advanced-usage":
-        render_template("advanced_usage.py.j2", output_dir / "chat_loop.py")
+    elif option == "chat-loop-usage":
+        render_template("chat_loop_usage.py.j2", output_dir / "chat_loop.py")
 
     elif option == "env-usage":
         render_template("env_usage.py.j2", output_dir / "main.py", use_stream=True)
-        render_template("env.example.j2", output_dir / ".env", use_stream=True)
+        render_template("env.example.py.j2", output_dir / ".env", use_stream=True)
 
-    elif option == "env-advanced-usage":
-        render_template("env_advanced_usage.py.j2", output_dir / "chat_loop.py", use_stream=True)
-        render_template("env.example.j2", output_dir / ".env", use_stream=True)
+    elif option == "env-chat-loop-usage":
+        render_template("env_chat_loop_usage.py.j2", output_dir / "chat_loop.py", use_stream=True)
+        render_template("env.example.py.j2", output_dir / ".env", use_stream=True)
 
     else:
         raise ValueError(f"Unsupported sample option: {option}")

@@ -69,6 +69,7 @@ git push origin v<new_version>
 
 ## 📦 5. Build Distributable Packages
 ```bash
+find . -type d -name "__pycache__" -exec rm -r {} +
 rm -rf dist/
 python -m build
 ```

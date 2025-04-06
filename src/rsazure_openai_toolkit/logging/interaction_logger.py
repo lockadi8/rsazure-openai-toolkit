@@ -1,11 +1,13 @@
+import os
 import csv
 import json
-from datetime import datetime, timezone
 from pathlib import Path
+from typing import Optional
+from datetime import datetime, timezone
 
 
 class InteractionLogger:
-    def __init__(self, mode: str = None, path: str = None):
+    def __init__(self, mode: Optional[str] = None, path: Optional[str] = None):
         """
         Only enables logging if both mode and path are provided.
         If either is missing or mode is set to 'none', logging is disabled to respect user intent.
@@ -62,3 +64,13 @@ class InteractionLogger:
             return "<InteractionLogger disabled>"
         logs = self.get_logs()
         return f"<InteractionLogger mode='{self.mode}' path='{self.path}' entries={len(logs)}>"
+
+
+def get_logger() -> InteractionLogger:
+    """
+    Helper to instantiate the logger using environment variables:
+    RSCHAT_LOG_MODE and RSCHAT_LOG_PATH.
+    """
+    mode = os.getenv("RSCHAT_LOG_MODE")
+    path = os.getenv("RSCHAT_LOG_PATH")
+    return InteractionLogger(mode=mode, path=path)

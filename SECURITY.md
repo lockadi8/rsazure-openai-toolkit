@@ -49,8 +49,21 @@ This toolkit supports optional **context persistence** via `SessionContext`, whi
 - Includes message history, system prompt, and model configuration
 - All context storage is **opt-in**, triggered via environment variables
 - Full history is saved to a separate `.full.jsonl` file, even if context is trimmed
+- Metadata changes (e.g., prompt overrides) are automatically backed up with timestamped `.bak` files
 
 > ⚠️ Use with care on shared machines. Avoid using sensitive data in prompts or responses if local storage is enabled.
+___
+
+## 🔐 Security-minded Architecture
+
+The modular design of this toolkit (since v0.6.0) reinforces its commitment to safe, auditable, and professional AI integration:
+
+- No shared state or global mutability across modules
+- Clear separation of concerns (e.g., `env`, `logging`, `model_config`, `session`)
+- CLI and utility components validate inputs explicitly and fail gracefully
+- Configuration and history are saved locally with full user control
+
+You are always in charge of what gets stored, when, and how.
 ___
 
 ## 📣 Reporting a Vulnerability

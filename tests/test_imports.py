@@ -8,7 +8,6 @@ CI validation to catch packaging or path-related issues early.
 
 def test_imports():
     try:
-        import rsazure_openai_toolkit
-        from rsazure_openai_toolkit import call_azure_openai_handler, generate_response, load_azure_client
+        import rsazure_openai_toolkit as rschat
     except ImportError as e:
         assert False, f"Import failed: {e}"

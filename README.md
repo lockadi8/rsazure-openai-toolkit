@@ -53,7 +53,17 @@
   </a>
 </h1>
 
-A fast, secure, and auditable toolkit to integrate with Azure OpenAI — with a friendly CLI and dev-first architecture.
+A fast, modular, secure, and auditable toolkit to integrate with Azure OpenAI — with a friendly CLI and dev-first architecture.
+___
+
+## 🚀 What's New in v0.6.0
+
+- Fully modular codebase with dedicated folders for each responsibility
+- Object-oriented CLI (`rschat`, `rschat-tools`) for better maintainability
+- Persistent session context with full/trimmed history and safety validation
+- Unified `utils/` module and improved logging/debug output
+
+> Check the full [CHANGELOG](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/CHANGELOG.md) for details.
 ___
 
 ## 📖 Documentation
