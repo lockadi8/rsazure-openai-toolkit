@@ -56,6 +56,16 @@ If you're getting version-related errors:
 
 ---
 
+## 🔢 Token Count Errors
+
+### ❌ Tokenizer not found for model
+- If you see errors related to encoding or model name:
+  - Make sure `tiktoken` is installed
+  - The toolkit automatically maps deployment names like `gpt-4o` to the best tokenizer
+  - You can override model name detection via: `AZURE_OPENAI_MODEL=gpt-4`
+
+---
+
 ## 🌐 Network & Retry Behavior
 
 ### ⏳ Timeouts or 5xx Errors
@@ -70,6 +80,23 @@ If you're getting version-related errors:
 ### 🔁 Infinite retry loop? (in your own wrappers)
 By default, this toolkit limits retries to 3.  
 If you wrap it in your own retry logic, make sure you’re not stacking conflicting mechanisms.
+
+---
+
+## 🧠 Session Context Issues
+
+### 💾 Context not saving
+- Check that `RSCHAT_USE_CONTEXT=1` is set
+- Verify the context path is writable: `RSCHAT_CONTEXT_PATH=~/.rschat_history`
+- If using custom session ID, confirm it's consistent across calls: `RSCHAT_SESSION_ID=my_session`
+
+### 🔐 Prompt not updating
+- If `RSCHAT_OVERRIDE_SYSTEM` is not set, the saved prompt is enforced
+- Set `RSCHAT_OVERRIDE_SYSTEM=1` to allow overwriting the saved prompt/config
+
+### ⚠️ Inconsistent message trimming
+- If messages disappear between runs, you may be hitting `RSCHAT_CONTEXT_MAX_MESSAGES` or `RSCHAT_CONTEXT_MAX_TOKENS`
+- The full history is always saved in `.full.jsonl` (check that file for confirmation)
 
 ---
 
@@ -109,6 +136,11 @@ Also confirm that:
 ### 📝 CLI exits silently or doesn’t log
 - Check that `RSCHAT_LOG_MODE` and `RSCHAT_LOG_PATH` are set before running `rschat`
 - Use `echo %RSCHAT_LOG_MODE%` (Windows) or `echo $RSCHAT_LOG_MODE` (Unix) to inspect
+- Try enabling verbose output for diagnostics:
+
+```env
+RSCHAT_VERBOSE=1
+```
 
 ---
 
@@ -131,3 +163,10 @@ pip install --upgrade rsazure-openai-toolkit
 ## 💬 Still stuck?
 
 Feel free to open an [Issue on GitHub](https://github.com/renan-siqueira/rsazure-openai-toolkit/issues) or contact the author via [email](mailto:renan.siqu@gmail.com).
+
+---
+
+📚 See also:
+- [Session Context](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/session_context.md)
+- [Logging](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/logging.md)
+- [CLI Usage](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/cli.md)

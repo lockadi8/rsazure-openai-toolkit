@@ -1,14 +1,15 @@
 ## 🚀 Key Features
 
-This toolkit was designed with reliability and real-world use in mind:
+This toolkit was designed with reliability, transparency, and real-world usage in mind:
 
-- ✅ Modular architecture — easy to integrate and extend
-- ✅ Intelligent retry mechanism with exponential backoff (via `tenacity`)
-- ✅ Fully compatible with OpenAI-style request formats
-- ✅ CLI-first design — includes `rschat` for terminal usage and `rschat-tools` for automation
-- ✅ Secure by design — no telemetry, no external data sent
-- ✅ Production-ready — suitable for professional, CI/CD-integrated environments
-- ✅ Transparent logging — opt-in logging of all interactions with token usage and config
-- ✅ Smart token tracking — includes input/output/total token count (with fallback)
-- ✅ Reproducible outputs — seed-based generation for deterministic results
-- ✅ Config utilities — reusable `get_model_config()` function to define model behavior
+- ✅ Modular architecture — fully structured by domain (`core/`, `cli/`, `env/`, `session/`, `logging/`, etc.), with clean separation of concerns and low coupling
+- ✅ CLI-first design — `rschat` and `rschat-tools` are powered by `ChatCLI` and `ToolsCLI` classes for clean, extensible logic
+- ✅ Intelligent retry mechanism — robust error handling with exponential backoff (via `tenacity`)
+- ✅ Session context persistence — configurable memory window with full history storage (`.full.jsonl`) and safe prompt/config validation (`.meta.json` with backups)
+- ✅ Reproducible outputs — deterministic generation via `seed`, powered by `ModelConfig`
+- ✅ Config utilities — includes `get_model_config()`, `ModelConfig`, and tokenizer-aware input token estimation
+- ✅ Transparent logging — opt-in interaction logging via `InteractionLogger`, supporting both `jsonl` and `csv` formats
+- ✅ Smart token tracking — full visibility into input, output, and total tokens (with estimation fallback)
+- ✅ Designed for testability — object-oriented CLI, consistent outputs, and reusable components across scripts and pipelines
+- ✅ Secure by design — no telemetry, no external data sent, no hidden state or magic behaviors
+- ✅ Production-ready — suitable for professional, CI/CD-integrated, and auditable environments

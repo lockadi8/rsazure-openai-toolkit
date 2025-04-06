@@ -38,6 +38,6 @@
         │       ├── env_usage.py.j2
         │       └── env.example.py.j2
         ├── session/
-        │   └── context.py                          # SessionContext manager
+        │   └── session.py                          # SessionContext manager
         └── utils/
             ├── __init__.py                         # Token estimation and tokenizer utils

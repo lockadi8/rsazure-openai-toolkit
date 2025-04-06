@@ -21,6 +21,8 @@ While this project does not handle user credentials or transmit data externally,
 - You never expose API keys in source code
 - Environment variables are used to manage secrets
 - You follow the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege) when configuring Azure OpenAI
+
+> 💡 If you’re working in a shared or production machine, avoid enabling context or logging unless you fully control access to disk and history files.
 ___
 
 ## 📝 Logging and Local Data
@@ -31,6 +33,10 @@ This toolkit supports **opt-in local logging** to assist with debugging and cost
 - Token usage
 - Response time
 - Model configuration (including seed)
+
+Logging is handled via the `InteractionLogger` class, which respects your configuration and saves data locally.
+
+The `SessionContext` and `ContextInfo` classes are responsible for storing and validating conversation state — always under user control.
 
 ### Important:
 
@@ -62,8 +68,21 @@ The modular design of this toolkit (since v0.6.0) reinforces its commitment to s
 - Clear separation of concerns (e.g., `env`, `logging`, `model_config`, `session`)
 - CLI and utility components validate inputs explicitly and fail gracefully
 - Configuration and history are saved locally with full user control
+- All public interfaces (`rschat`, `main()`, `get_model_config()`, etc.) are explicit and do not hide behavior
+- Logging and context logic are fully decoupled, testable, and can be disabled independently
 
-You are always in charge of what gets stored, when, and how.
+✅ This toolkit was designed with **security-first principles** — and we encourage audits, forks, and community validation.
+___
+
+## 🧱 Threat Model & Attack Surface
+
+This toolkit is a **local-only**, client-side tool:
+
+- No backend services, API gateways, or telemetry endpoints are used
+- All data remains on disk and under user control
+- The only outbound request is made by the Azure OpenAI SDK to your own configured endpoint
+
+This greatly reduces the attack surface and simplifies threat modeling.
 ___
 
 ## 📣 Reporting a Vulnerability
@@ -85,7 +104,7 @@ ___
 
 ## 🤝 Responsible Use
 
-This project is open source and shared in the spirit of collaboration.
+This project is open source and shared in the spirit of collaboration.  
 Please use it ethically and contribute improvements or fixes whenever possible.
 
 Thank you for helping keep the open source ecosystem safe!

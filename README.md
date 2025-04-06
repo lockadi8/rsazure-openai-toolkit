@@ -53,15 +53,19 @@
   </a>
 </h1>
 
-A fast, modular, secure, and auditable toolkit to integrate with Azure OpenAI — with a friendly CLI and dev-first architecture.
+A fast, modular, secure, and auditable Python toolkit to integrate with Azure OpenAI — designed for developers, teams, and production environments.
+
+> 💡 Use via `import rsazure_openai_toolkit as rschat` for access to all core features in one import.
+
 ___
 
 ## 🚀 What's New in v0.6.0
 
-- Fully modular codebase with dedicated folders for each responsibility
-- Object-oriented CLI (`rschat`, `rschat-tools`) for better maintainability
-- Persistent session context with full/trimmed history and safety validation
-- Unified `utils/` module and improved logging/debug output
+- Object-oriented CLI (`rschat`, `rschat-tools`) — easier to test, extend and reuse
+- Persistent session context — with system prompt validation and full/trimmed history tracking
+- Reproducible model config — centralized via `get_model_config()` and `ModelConfig`
+- Transparent logging — structured logs via `InteractionLogger` (CSV/JSONL)
+- Modular architecture — folders like `core/`, `session/`, `logging/`, `model_config/`, etc.
 
 > Check the full [CHANGELOG](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/CHANGELOG.md) for details.
 ___
@@ -77,6 +81,7 @@ ___
 - [Session Context & Conversation History](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/session_context.md)
 - [Logging & Token Tracking](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/logging.md)
 - [Troubleshooting](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/troubleshooting.md)
+- [Generated Samples & Usage Templates](https://github.com/renan-siqueira/rsazure-openai-toolkit/tree/main/samples)
 - [Security Policy](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/SECURITY.md)
 - [Full Changelog](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/CHANGELOG.md)
 ___
