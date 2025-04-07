@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rsazure-openai-toolkit"
-version = "0.6.1"
+version = "0.6.2"
 description = "A fast, modular, secure, and auditable toolkit to integrate with Azure OpenAI — with a friendly CLI and dev-first architecture."
 authors = [{ name = "Renan Siqueira Antonio", email = "renan.siqu@gmail.com" }]
 readme = { file = "README.md", content-type = "text/markdown" }
