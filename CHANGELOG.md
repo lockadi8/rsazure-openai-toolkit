@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 ___
 
+## [0.6.2] - 2025-04-07
+
+### Changed
+- Refactored all template files in `samples/templates/` to align with the modular CLI architecture introduced in v0.6.0
+  - Replaced all uses of `call_azure_openai_handler()` with `main()` function
+  - Replaced manual print formatting with `ChatResult().print()` for consistent output
+  - Replaced direct logging calls with `get_logger()` and `result.to_log_dict()`
+  - Replaced hardcoded message structures with `get_context_messages()` for context support
+  - Added defensive `response.choices` check and fallback token estimation
+  - Standardized import style: `import rsazure_openai_toolkit as rschat`
+  - Wrapped logic in `main()` blocks for reuse and testability
+
+### Affected Templates
+- `basic_usage.py.j2`
+- `chat_loop_usage.py.j2`
+- `env_usage.py.j2`
+- `env_chat_loop_usage.py.j2`
+
+> These templates are now fully aligned with the official CLI (`rschat`) and offer consistent logging, context persistence, and safety across all use cases.
+
+### Notes
+- No breaking changes
+- Recommended: regenerate examples using `rschat-tools samples`
+- Version bumped to 0.6.2
+___
+
 ## [0.6.1] - 2025-04-05
 
 ### Changed

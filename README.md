@@ -59,13 +59,17 @@ A fast, modular, secure, and auditable Python toolkit to integrate with Azure Op
 
 ___
 
-## 🚀 What's New in v0.6.0
++ ## 🚀 What's New in v0.6.x
 
 - Object-oriented CLI (`rschat`, `rschat-tools`) — easier to test, extend and reuse
 - Persistent session context — with system prompt validation and full/trimmed history tracking
 - Reproducible model config — centralized via `get_model_config()` and `ModelConfig`
 - Transparent logging — structured logs via `InteractionLogger` (CSV/JSONL)
 - Modular architecture — folders like `core/`, `session/`, `logging/`, `model_config/`, etc.
+
+### v0.6.2
+- All sample templates have been fully aligned with the core architecture and CLI
+- Logging, context, result formatting, and safety checks now follow production-grade standards
 
 > Check the full [CHANGELOG](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/CHANGELOG.md) for details.
 ___
