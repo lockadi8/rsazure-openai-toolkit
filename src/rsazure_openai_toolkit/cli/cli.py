@@ -28,6 +28,7 @@ import sys
 import time
 import click
 import rsazure_openai_toolkit as rschat
+from rsazure_openai_toolkit.core import integration as rschat_core
 
 
 class ChatCLI:
@@ -76,7 +77,7 @@ class ChatCLI:
     def _send_request(self):
         try:
             start = time.time()
-            self.response = rschat.main(
+            self.response = rschat_core.main(
                 api_key=self.config["api_key"],
                 azure_endpoint=self.config["endpoint"],
                 api_version=self.config["version"],

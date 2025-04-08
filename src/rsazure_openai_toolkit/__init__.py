@@ -5,9 +5,6 @@ A fast, secure, and auditable toolkit to integrate with Azure OpenAI — with a 
 
 Top-level exports available when importing as `import rsazure_openai_toolkit as rschat`:
 
-# Core interaction
-- rschat.main(...)
-
 # Configuration & utility
 - rschat.get_model_config(...)
 - rschat.ModelConfig(...)
