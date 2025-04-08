@@ -1,17 +1,4 @@
 """
-rsazure_openai_toolkit.core
-
-Core functionality for interacting with Azure OpenAI.
-
-Exports:
-- main(): High-level request handler.
-- generate_response(): Low-level retry-enabled OpenAI call.
+This module contains internal, low-level logic.
+Nothing should be imported directly from this level.
 """
-
-from .core import main, generate_response
-
-
-__all__ = [
-    "main",
-    "generate_response",
-]

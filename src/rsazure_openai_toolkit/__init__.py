@@ -5,10 +5,6 @@ A fast, secure, and auditable toolkit to integrate with Azure OpenAI — with a 
 
 Top-level exports available when importing as `import rsazure_openai_toolkit as rschat`:
 
-# Core interaction
-- rschat.main(...)
-- rschat.generate_response(...)
-
 # Configuration & utility
 - rschat.get_model_config(...)
 - rschat.ModelConfig(...)
@@ -43,9 +39,6 @@ __docs__ = "https://github.com/renan-siqueira/rsazure-openai-toolkit/tree/main/d
 __security_policy_url__ = "https://github.com/renan-siqueira/rsazure-openai-toolkit/security/policy"
 
 
-# Core interaction
-from .core import main, generate_response
-
 # Utility
 from .utils import estimate_input_tokens
 
@@ -69,10 +62,6 @@ from .models import ChatResult, ContextInfo
 
 
 __all__ = [
-    # Core OpenAI interaction
-    "main",
-    "generate_response",
-
     # Config & utils
     "get_model_config",
     "ModelConfig",
