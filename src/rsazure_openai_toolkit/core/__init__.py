@@ -8,10 +8,9 @@ Exports:
 - generate_response(): Low-level retry-enabled OpenAI call.
 """
 
-from .core import main, generate_response
+from .integration import main
 
 
 __all__ = [
     "main",
-    "generate_response",
 ]

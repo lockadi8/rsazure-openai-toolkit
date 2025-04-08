@@ -7,7 +7,6 @@ Top-level exports available when importing as `import rsazure_openai_toolkit as 
 
 # Core interaction
 - rschat.main(...)
-- rschat.generate_response(...)
 
 # Configuration & utility
 - rschat.get_model_config(...)
@@ -71,7 +70,6 @@ from .models import ChatResult, ContextInfo
 __all__ = [
     # Core OpenAI interaction
     "main",
-    "generate_response",
 
     # Config & utils
     "get_model_config",
