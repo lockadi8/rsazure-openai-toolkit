@@ -42,9 +42,6 @@ __docs__ = "https://github.com/renan-siqueira/rsazure-openai-toolkit/tree/main/d
 __security_policy_url__ = "https://github.com/renan-siqueira/rsazure-openai-toolkit/security/policy"
 
 
-# Core interaction
-from .core import main, generate_response
-
 # Utility
 from .utils import estimate_input_tokens
 
@@ -68,9 +65,6 @@ from .models import ChatResult, ContextInfo
 
 
 __all__ = [
-    # Core OpenAI interaction
-    "main",
-
     # Config & utils
     "get_model_config",
     "ModelConfig",
