@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 ___
 
+## [0.6.3] - 2025-04-08
+
+### Added
+- New `core/integration.py` module as the explicit integration layer with Azure OpenAI SDK
+- Unit tests for `integration.py` using Python's built-in `unittest` and mock objects
+- Full parameter structure validation for chat completions
+
+### Changed
+- Renamed `core.py` to `integration.py` and removed it from the public interface
+- Main `__init__.py` no longer exposes internal technical functions
+- `core/__init__.py` is now empty to reinforce its internal-only purpose
+
+### Notes
+- No external dependencies were added
+- All tests pass via `unittest` with `python tests/core/test_integration.py`
+
+- Bumped version to 0.6.3
+___
+
 ## [0.6.2] - 2025-04-07
 
 ### Changed
