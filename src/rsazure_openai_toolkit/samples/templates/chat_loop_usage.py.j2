@@ -1,5 +1,6 @@
 import time
 import rsazure_openai_toolkit as rschat
+from rsazure_openai_toolkit.core import integration as rschat_core
 
 
 def chat_loop():
@@ -26,7 +27,7 @@ def chat_loop():
         model_config = rschat.get_model_config()
 
         start = time.time()
-        response = rschat.main(
+        response = rschat_core.main(
             api_key=config["api_key"],
             azure_endpoint=config["endpoint"],
             api_version=config["version"],
