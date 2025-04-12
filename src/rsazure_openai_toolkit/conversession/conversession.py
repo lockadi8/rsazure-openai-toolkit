@@ -5,7 +5,7 @@ import time
 from rsazure_openai_toolkit.prompts.agent import Agent
 from rsazure_openai_toolkit.session import SessionContext
 from rsazure_openai_toolkit.logging.interaction_logger import get_logger, InteractionLogger
-from rsazure_openai_toolkit.model_config import ModelConfig
+from rsazure_openai_toolkit.prompts import ModelConfig
 from rsazure_openai_toolkit.env import get_cli_config
 from rsazure_openai_toolkit.core.integration import main as call_azure_openai
 
