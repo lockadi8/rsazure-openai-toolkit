@@ -37,14 +37,14 @@ class ConverSession:
         """
         self.prompt_vars = prompt_vars or {}
 
-        base_path = Path(prompt_path or Path(get_cli_config().get("prompt_path", ""))).expanduser()
-        if not base_path.exists():
-            raise FileNotFoundError(f"Prompt base path not found: {base_path}")
+        cli_cfg = get_cli_config()
+        base_path = Path(prompt_path or cli_cfg.get("prompt_path", ".rsazure/prompts")).expanduser()
 
         try:
             self.agent = Agent(agent_name=agent, base_path=base_path)
-        except FileNotFoundError:
-            print("⚠️  Prompt path not found or agent missing. Using built-in agent.")
+        except Exception as e:
+            print(f"⚠️  Failed to load agent '{agent}' from {base_path}. Reason: {e}")
+            print("ℹ️  Using BuiltInAgent fallback.")
             self.agent = BuiltInAgent()
 
         self.prompt_data = self.agent.get_prompt(prompt or self.agent.default_prompt)
