@@ -90,32 +90,33 @@ v<new_version> — <summary title>
 ### 📝 Description:
 
 ```md
-Highlights  
+## Highlights  
 <emoji> <Brief description of major additions or fixes>
 
-✅ List of visible or user-facing enhancements  
-🔐 Notes on security, reliability, or architecture changes (if any)
+- ✅ List of visible or user-facing enhancements  
+- 🔐 Notes on security, reliability, or architecture changes (if any)
 ___
 
-What's Changed  
+## What's Changed  
 
-✅ Added  (if applicable)
+### ✅ Added  (if applicable)
 - Describe new features or modules
 
-🔧 Changed  (if applicable)
+### 🔧 Changed  (if applicable)
 - List refactors or improvements
 
-🐛 Fixed  (if applicable)
+### 🐛 Fixed  (if applicable)
 - Mention any bugs resolved
 
 (... Others sections if applicable)
 
-📌 Notes  
+### 📌 Notes  
 - No breaking changes (if applicable)  
 - No new dependencies (if applicable)  
 - Safe to upgrade (if applicable)
+___
 
-🔎 See the [Changelog](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/CHANGELOG.md) for full details.
+> 🔎 See the [Changelog](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/CHANGELOG.md) for full details.
 ```
 ___
 
