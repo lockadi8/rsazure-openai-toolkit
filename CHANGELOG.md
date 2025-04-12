@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 ___
 
+## [0.7.2] - 2024-04-12
+
+### Added
+- 🧠 Added `BuiltInAgent` fallback for first-time users
+  - Enables automatic prompt handling when no agent or `.rsmeta` file is found
+  - Used transparently by `ConverSession` if `RSCHAT_PROMPT_PATH` is invalid or empty
+  - Ensures `rschat "your question"` works immediately after installation
+
+### Changed
+- Updated `ConverSession` to fallback to `BuiltInAgent` when `Agent` or `prompt_path` is missing
+- Bumped version to 0.7.2
+
+### Notes
+- No breaking changes
+- No new dependencies
+- This version enhances first-run usability and robustness
+___
+
 ## [0.7.1] - 2024-04-12
 
 ### Fixed

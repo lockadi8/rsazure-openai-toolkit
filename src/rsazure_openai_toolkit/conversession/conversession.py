@@ -3,12 +3,12 @@ from pathlib import Path
 import time
 
 from rsazure_openai_toolkit.prompts.agent import Agent
+from rsazure_openai_toolkit.prompts.fallback_agent import BuiltInAgent
 from rsazure_openai_toolkit.session import SessionContext
 from rsazure_openai_toolkit.logging.interaction_logger import get_logger, InteractionLogger
 from rsazure_openai_toolkit.prompts import ModelConfig
 from rsazure_openai_toolkit.env import get_cli_config
 from rsazure_openai_toolkit.core.integration import main as call_azure_openai
-
 
 class ConverSession:
     def __init__(
@@ -41,7 +41,12 @@ class ConverSession:
         if not base_path.exists():
             raise FileNotFoundError(f"Prompt base path not found: {base_path}")
 
-        self.agent = Agent(agent_name=agent, base_path=base_path)
+        try:
+            self.agent = Agent(agent_name=agent, base_path=base_path)
+        except FileNotFoundError:
+            print("⚠️  Prompt path not found or agent missing. Using built-in agent.")
+            self.agent = BuiltInAgent()
+
         self.prompt_data = self.agent.get_prompt(prompt or self.agent.default_prompt)
         self.config = ModelConfig(
             temperature=self.agent.temperature,
