@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 ___
 
+## [0.6.4] - 2025-04-12
+### Fixed
+- Fixed bug where `.env` was not loaded early enough in CLI (`rschat`) causing missing environment variable errors
+### Changed
+- Moved `load_env()` to the top of `cli.py` to ensure environment is loaded before config validation
+- Bumped version to 0.6.4
+___
+
 ## [0.6.3] - 2025-04-08
 
 ### Added
