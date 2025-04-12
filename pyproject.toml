@@ -17,7 +17,8 @@ dependencies = [
     "python-dotenv>=1.0.0",
     "click>=8.1.0",
     "Jinja2>=3.1.2",
-    "tiktoken>=0.9.0"
+    "tiktoken>=0.9.0",
+    "pyyaml>=0.6.0"
 ]
 
 keywords = ["azure", "openai", "chatgpt", "llm", "cli", "toolkit", "prompt", "chatbot", "azure-openai", "prompt-engineering", "developer-tools"]
