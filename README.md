@@ -59,29 +59,29 @@ A fast, modular, secure, and auditable Python toolkit to integrate with Azure Op
 
 ___
 
-## 🚀 What's New in v0.6.x
+## 🚀 What's New in v0.7.0
 
-- Object-oriented CLI (`rschat`, `rschat-tools`) — easier to test, extend and reuse
-- Persistent session context — with system prompt validation and full/trimmed history tracking
-- Reproducible model config — centralized via `get_model_config()` and `ModelConfig`
-- Transparent logging — structured logs via `InteractionLogger` (CSV/JSONL)
-- Modular architecture — folders like `core/`, `session/`, `logging/`, `model_config/`, etc.
+- Introduced `ConverSession`: the new orchestration core for prompt-based conversations
+- Added `Agent`: a structured loader for prompt and config logic via `.rsmeta` and `config.yaml`
+- Modular prompt system with variable substitution, versioning, and validation
+- Full `.env` integration through `env/config.py` with centralized access
+- CLI now delegates to `ConverSession` — cleaner and easier to maintain
+- Merged `model_config.py` and `model.py` into unified `prompts/model.py`
+- All environment access is now centralized and testable
 
 > Check the full [CHANGELOG](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/CHANGELOG.md) for details.
 ___
 
 ## 📖 Documentation
 
-- [Project Overview](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/overview.md)
-- [Key Features](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/features.md)
+
+- [Overview](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/index.md)
 - [Quick Start](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/quick_start.md)
-- [Usage & Environment Setup](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/usage.md)
+- [ConverSession Architecture](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/conversession.md)
+- [Environment Configuration](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/config.md)
 - [CLI Reference (`rschat` & `rschat-tools`)](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/cli.md)
-- [Model Configuration](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/config.md)
-- [Session Context & Conversation History](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/session_context.md)
-- [Logging & Token Tracking](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/logging.md)
+- [Session Context](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/session_context.md)
 - [Troubleshooting](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/troubleshooting.md)
-- [Generated Samples & Usage Templates](https://github.com/renan-siqueira/rsazure-openai-toolkit/tree/main/samples)
 - [Security Policy](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/SECURITY.md)
 - [Full Changelog](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/CHANGELOG.md)
 ___

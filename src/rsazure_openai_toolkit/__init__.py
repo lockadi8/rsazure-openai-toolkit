@@ -34,7 +34,7 @@ Top-level exports available when importing as `import rsazure_openai_toolkit as 
 - rschat.PromptMetadata(...)
 """
 
-__version__ = "0.6.4"
+__version__ = "0.7.0"
 __description__ = "A fast, modular, secure, and auditable toolkit to integrate with Azure OpenAI — with a friendly CLI and dev-first architecture."
 __author__ = "Renan Siqueira Antonio"
 __license__ = "MIT"

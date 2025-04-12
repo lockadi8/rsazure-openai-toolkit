@@ -1,5 +1,5 @@
 .
-├── docs
+├── docs/                             # Modular documentation
 │   ├── cli.md
 │   ├── config.md
 │   ├── features.md
@@ -9,35 +9,60 @@
 │   ├── session_context.md
 │   ├── troubleshooting.md
 │   └── usage.md
-├── scripts
+│
+├── scripts/                          # Automation scripts for setup and build
 │   ├── setup.ps1
 │   └── setup.sh
-└── src
-    └── rsazure_openai_toolkit
-        ├── __init__.py                             # Main entry point and unified export layer
+│
+└── src/
+    └── rsazure_openai_toolkit/
+        ├── __init__.py                          # Entry point and public export layer
+        │
         ├── cli/
-        │   ├── cli.py                              # Main CLI command (`rschat`)
-        │   └── tools.py                            # Developer tools (`rschat-tools`)
+        │   ├── cli.py                           # Main command rschat
+        │   └── tools.py                         # Auxiliary tools rschat-tools
+        │
+        ├── conversession/
+        │   ├── __init__.py                      # Exports ConverSession
+        │   └── conversession.py                 # Core of conversational orchestration
+        │
         ├── core/
-        │   └── core.py                             # Core interaction with Azure OpenAI
+        │   ├── __init__.py
+        │   └── integration.py                   # Encapsulates call to Azure OpenAI
+        │
         ├── env/
-        │   └── config.py                           # Environment loading and validation
+        │   ├── __init__.py
+        │   └── config.py                        # Loading and validation of environment variables
+        │
         ├── logging/
-        │   └── interaction_logger.py               # Structured logging for interactions
-        ├── model_config/
-        │   └── model_config.py                     # ModelConfig class and helpers
+        │   ├── __init__.py
+        │   └── interaction_logger.py            # Structured logger for LLM interactions
+        │
         ├── models/
-        │   ├── context.py                          # ContextInfo dataclass
-        │   └── results.py                          # ChatResult dataclass
+        │   ├── __init__.py
+        │   ├── context.py                       # Class ContextInfo
+        │   └── results.py                       # Class ChatResult
+        │
+        ├── prompts/
+        │   ├── __init__.py
+        │   ├── agent.py                         # Represents an agent with config.yaml + prompts
+        │   ├── manager.py                       # .rsmeta prompt loader
+        │   └── model.py                         # Contains PromptMetadata, PromptData, ModelConfig
+        │
         ├── samples/
-        │   ├── generator.py                        # Sample project generator
-        │   └── templates/
+        │   ├── __init__.py
+        │   ├── generator.py                     # Sample project generator
+        │   └── templates/                       # Jinja2 templates for Python examples
         │       ├── basic_usage.py.j2
         │       ├── chat_loop_usage.py.j2
         │       ├── env_chat_loop_usage.py.j2
         │       ├── env_usage.py.j2
         │       └── env.example.py.j2
+        │
         ├── session/
-        │   └── session.py                          # SessionContext manager
+        │   ├── __init__.py
+        │   └── session.py                       # Persistent context manager (SessionContext)
+        │
         └── utils/
-            ├── __init__.py                         # Token estimation and tokenizer utils
+            ├── __init__.py
+            └── utils.py                         # Token estimation and various utilities
