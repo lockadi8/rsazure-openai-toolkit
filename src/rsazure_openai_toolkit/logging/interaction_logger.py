@@ -1,16 +1,21 @@
-import os
 import csv
 import json
 from pathlib import Path
 from typing import Optional
 from datetime import datetime, timezone
 
+from rsazure_openai_toolkit.env import get_logging_config
+
 
 class InteractionLogger:
     def __init__(self, mode: Optional[str] = None, path: Optional[str] = None):
         """
-        Only enables logging if both mode and path are provided.
+        Initializes the logger based on mode and path.
         If either is missing or mode is set to 'none', logging is disabled to respect user intent.
+
+        Args:
+            mode (str): Logging mode ('jsonl', 'csv', or 'none')
+            path (str): File path for saving logs
         """
         if not mode or mode.lower() == "none" or not path:
             self.enabled = False
@@ -68,9 +73,8 @@ class InteractionLogger:
 
 def get_logger() -> InteractionLogger:
     """
-    Helper to instantiate the logger using environment variables:
-    RSCHAT_LOG_MODE and RSCHAT_LOG_PATH.
+    Helper to instantiate the logger using environment configuration
+    from the centralized env module.
     """
-    mode = os.getenv("RSCHAT_LOG_MODE")
-    path = os.getenv("RSCHAT_LOG_PATH")
-    return InteractionLogger(mode=mode, path=path)
+    cfg = get_logging_config()
+    return InteractionLogger(mode=cfg["mode"], path=cfg["path"])
