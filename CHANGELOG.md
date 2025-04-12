@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 ___
 
+## [0.7.1] - 2024-04-12
+
+### Fixed
+- 🔧 Fixed `ModuleNotFoundError` caused by outdated import path in `conversession.py`
+  - `ModelConfig` was still being imported from the removed `model_config` module
+  - Now correctly imported from `prompts/model.py`
+
+### Changed
+- Bumped version to 0.7.1
+___
+
 ## [0.7.0] - 2024-04-12
 
 ### Added
