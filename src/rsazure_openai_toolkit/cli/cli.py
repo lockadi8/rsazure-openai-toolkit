@@ -8,19 +8,6 @@ Supports context handling, result logging, and environment-based config.
 
 Usage:
     $ rschat "How does GPT-4o compare to GPT-4?"
-
-Environment variables:
-    - AZURE_OPENAI_API_KEY
-    - AZURE_OPENAI_ENDPOINT
-    - AZURE_OPENAI_API_VERSION
-    - AZURE_DEPLOYMENT_NAME
-    - RSCHAT_SYSTEM_PROMPT
-    - RSCHAT_USE_CONTEXT
-    - RSCHAT_SESSION_ID
-    - RSCHAT_CONTEXT_MAX_MESSAGES
-    - RSCHAT_CONTEXT_MAX_TOKENS
-    - RSCHAT_LOG_MODE
-    - RSCHAT_LOG_PATH
 """
 
 import os
