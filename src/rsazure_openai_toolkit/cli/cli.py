@@ -30,6 +30,7 @@ import click
 import rsazure_openai_toolkit as rschat
 from rsazure_openai_toolkit.core import integration as rschat_core
 
+rschat.load_env()
 
 class ChatCLI:
     def __init__(self, question: tuple[str]):
@@ -52,7 +53,6 @@ class ChatCLI:
             click.echo("\n⚠️  Please provide a question to ask the model.\n")
             sys.exit(1)
 
-        rschat.load_env()
         self._prepare_context()
         self._estimate_tokens()
         self._send_request()

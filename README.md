@@ -67,11 +67,6 @@ ___
 - Transparent logging — structured logs via `InteractionLogger` (CSV/JSONL)
 - Modular architecture — folders like `core/`, `session/`, `logging/`, `model_config/`, etc.
 
-### v0.6.3 - latest
-- `core.py` has been refactored and renamed to `core/integration.py` as a dedicated integration layer
-- Added isolated unit tests using Python’s built-in `unittest` (no external test dependencies)
-- Internal interface `core` is no longer exposed publicly, enforcing architectural boundaries
-
 > Check the full [CHANGELOG](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/CHANGELOG.md) for details.
 ___
 
