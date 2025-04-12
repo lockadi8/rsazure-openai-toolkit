@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 ___
 
+## [0.7.0] - 2024-04-12
+
+### Added
+- Introduced `ConverSession` as the new conversational core of the toolkit
+- `Agent` class to load and validate behavior via `config.yaml` and `.rsmeta`
+- Prompt architecture with support for external versioned prompt files (`.rsmeta`)
+- Support for dynamic prompt variable injection and safe rendering
+- CLI now powered by `ConverSession` internally
+
+### Changed
+- Refactored prompt and model configuration into unified `prompts/model.py`
+- Centralized environment variable handling in `env/config.py`
+- Updated CLI to be a lightweight interface using core orchestration
+- Updated internal imports and module names for clarity (e.g. `conversession/`)
+- Project version bumped to `0.7.0` to reflect architectural maturity
+
+### Removed
+- Legacy `model_config.py` (merged into `prompts.model`)
+- Redundant `ChatCLI` class in CLI (replaced by `ConverSession`)
+
+### Notes
+- No breaking changes
+- No new dependencies
+- Safe to upgrade
+___
+
 ## [0.6.4] - 2025-04-12
 ### Fixed
 - Fixed bug where `.env` was not loaded early enough in CLI (`rschat`) causing missing environment variable errors

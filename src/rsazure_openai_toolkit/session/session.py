@@ -1,9 +1,11 @@
-import os
 import json
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional
-import rsazure_openai_toolkit as rschat
+
+from rsazure_openai_toolkit.utils import estimate_input_tokens
+from rsazure_openai_toolkit.models import ContextInfo
+from rsazure_openai_toolkit.env import get_context_config
 
 class SessionContext:
     def __init__(
@@ -11,7 +13,7 @@ class SessionContext:
         session_id: str = "default",
         max_messages: Optional[int] = None,
         max_tokens: Optional[int] = None,
-        deployment_name: Optional[str] = "gpt-4o",
+        deployment_name: Optional[str] = None,
         system_prompt: Optional[str] = None,
         storage_path: Optional[str] = None,
         strict_system: bool = True
@@ -21,7 +23,7 @@ class SessionContext:
         self.max_tokens = None if max_tokens == 0 else max_tokens
         self.deployment_name = deployment_name
 
-        base_dir = Path(storage_path or os.getenv("RSCHAT_CONTEXT_PATH", "~/.rschat_history")).expanduser()
+        base_dir = Path(storage_path).expanduser() if storage_path else Path(".rsazure/session").expanduser()
         base_dir.mkdir(parents=True, exist_ok=True)
         self._file_path = base_dir / f"{session_id}.jsonl"
         self._meta_path = base_dir / f"{session_id}.meta.json"
@@ -137,7 +139,7 @@ class SessionContext:
             self.messages = self.messages[-self.max_messages:]
 
         if self.max_tokens is not None:
-            while rschat.estimate_input_tokens(messages=self.messages, deployment_name=self.deployment_name) > self.max_tokens and len(self.messages) > 1:
+            while estimate_input_tokens(messages=self.messages, deployment_name=self.deployment_name) > self.max_tokens and len(self.messages) > 1:
                 self.messages.pop(0)
 
         after = len(self.messages)
@@ -172,16 +174,17 @@ def get_context_messages(
 ) -> dict:
     """
     Returns a dict with 'messages', 'context' and 'context_info'.
-    Automatically loads values from environment if not provided.
+    Automatically loads values from environment config if not provided.
     """
+    cfg = get_context_config()
 
-    use_context = use_context if use_context is not None else os.getenv("RSCHAT_USE_CONTEXT", "0") == "1"
-    session_id = session_id or os.getenv("RSCHAT_SESSION_ID", "default")
-    deployment_name = deployment_name or os.getenv("AZURE_DEPLOYMENT_NAME", "gpt-3.5-turbo")
-    system_prompt = system_prompt or os.getenv("RSCHAT_SYSTEM_PROMPT", "You are a helpful assistant.")
-
-    max_messages = max_messages if max_messages is not None else int(os.getenv("RSCHAT_CONTEXT_MAX_MESSAGES", "0") or 0) or None
-    max_tokens = max_tokens if max_tokens is not None else int(os.getenv("RSCHAT_CONTEXT_MAX_TOKENS", "0") or 0) or None
+    use_context = use_context if use_context is not None else cfg["use_context"]
+    session_id = session_id or cfg["session_id"]
+    deployment_name = deployment_name or "gpt-3.5-turbo"
+    system_prompt = system_prompt or cfg["system_prompt"] if "system_prompt" in cfg else "You are a helpful assistant."
+    max_messages = max_messages if max_messages is not None else cfg["max_messages"]
+    max_tokens = max_tokens if max_tokens is not None else cfg["max_tokens"]
+    strict = not cfg["override_system"]
 
     if not use_context:
         return {
@@ -193,19 +196,18 @@ def get_context_messages(
             "context_info": None
         }
 
-    strict = os.getenv("RSCHAT_OVERRIDE_SYSTEM", "0") != "1"
-
     context = SessionContext(
         session_id=session_id,
         max_messages=max_messages,
         max_tokens=max_tokens,
         deployment_name=deployment_name,
         system_prompt=system_prompt,
+        storage_path=cfg["context_path"],
         strict_system=strict
     )
     context.add("user", user_input)
 
-    context_info = rschat.ContextInfo(
+    context_info = ContextInfo(
         session_id=session_id,
         num_previous=len(context.messages) - 1 if context.messages else 0,
         total_messages=len(context),

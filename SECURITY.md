@@ -34,8 +34,7 @@ This toolkit supports **opt-in local logging** to assist with debugging and cost
 - Response time
 - Model configuration (including seed)
 
-Logging is handled via the `InteractionLogger` class, which respects your configuration and saves data locally.
-
+Logging is handled via the `InteractionLogger.log()` method, which stores structured metadata locally.  
 The `SessionContext` and `ContextInfo` classes are responsible for storing and validating conversation state — always under user control.
 
 ### Important:
@@ -60,12 +59,24 @@ This toolkit supports optional **context persistence** via `SessionContext`, whi
 > ⚠️ Use with care on shared machines. Avoid using sensitive data in prompts or responses if local storage is enabled.
 ___
 
+## 🔍 Trusted Orchestration via ConverSession
+
+The `ConverSession` class acts as the central, auditable coordinator of your conversation flows.
+
+- It explicitly loads the `Agent`, prompt, `ModelConfig`, `SessionContext`, and logger
+- All components are opt-in and independently testable
+- `Agent` enforces reproducibility via SHA-256 hashes of config and `.rsmeta` files
+- System prompts are traceable and validated against expected structure
+
+> Learn more in the [ConverSession Documentation](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/conversession.md)
+___
+
 ## 🔐 Security-minded Architecture
 
 The modular design of this toolkit (since v0.6.0) reinforces its commitment to safe, auditable, and professional AI integration:
 
 - No shared state or global mutability across modules
-- Clear separation of concerns (e.g., `env`, `logging`, `model_config`, `session`)
+- Clear separation of concerns (e.g., `env`, `logging`, `prompts`, `session`, `conversession`)
 - CLI and utility components validate inputs explicitly and fail gracefully
 - Configuration and history are saved locally with full user control
 - All public interfaces (`rschat`, `main()`, `get_model_config()`, etc.) are explicit and do not hide behavior
@@ -97,9 +108,9 @@ ___
 
 ## 🔒 Security Notes
 
-- This toolkit **does not collect or send any data externally**.
-- All logic is executed **locally** and transparently — feel free to audit the code.
-- No telemetry, analytics, or external logging mechanisms are used.
+- This toolkit **does not collect or send any data externally**
+- All logic is executed **locally** and transparently — feel free to audit the code
+- No telemetry, analytics, or external logging mechanisms are used
 ___
 
 ## 🤝 Responsible Use
