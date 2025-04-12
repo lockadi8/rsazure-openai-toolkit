@@ -1,5 +1,6 @@
 from pathlib import Path
 import yaml
+
 from rsazure_openai_toolkit.prompts.model import PromptMetadata, PromptData
 
 
