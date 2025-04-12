@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 ___
 
+## [0.7.3] - 2024-04-12
+
+### Changed
+- ✅ Finalized `BuiltInAgent` behavior: does **not** create prompt folders/files
+  - Preserves the non-invasive design of the toolkit
+  - Fallback is purely in-memory and read-only
+  - Prevents side effects in test or script environments
+  - Bumped version to 0.7.3
+
+### Notes
+- Toolkit still works immediately via `rschat "question"` with no local files
+- `.rsazure/prompts/` is **not** created unless explicitly initialized by the user
+- Suitable for dry runs, demos, and ephemeral use cases
+___
+
 ## [0.7.2] - 2024-04-12
 
 ### Added
