@@ -55,7 +55,7 @@ class ChatCLI:
         self.context_info = self.context_data.get("context_info")
 
     def _estimate_tokens(self):
-        self.model_config = rschat.ModelConfig().as_dict()
+        self.model_config = rschat.prompts.ModelConfig().as_dict()
         self.input_tokens = rschat.estimate_input_tokens(
             messages=self.messages,
             deployment_name=self.config["deployment_name"]
