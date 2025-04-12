@@ -1,23 +1,10 @@
-# src/rsazure_openai_toolkit/cli/cli.py
-
 """
-Main CLI entry point for rsazure_openai-toolkit (rschat).
+Main CLI entry point for rsazure_openai_toolkit (rschat).
 
 Provides a simple interface to query Azure OpenAI via ConverSession.
 
 Usage:
-    $ rschat "What is the capital of France?"
-
-Environment variables:
-    - AZURE_OPENAI_API_KEY
-    - AZURE_OPENAI_ENDPOINT
-    - AZURE_OPENAI_API_VERSION
-    - AZURE_DEPLOYMENT_NAME
-    - RSCHAT_USE_CONTEXT
-    - RSCHAT_SESSION_ID
-    - RSCHAT_LOG_MODE
-    - RSCHAT_LOG_PATH
-    - RSCHAT_PROMPT_PATH
+    $ rschat "How does GPT-4o compare to GPT-4?"
 """
 
 import sys
