@@ -1,0 +1,42 @@
+MIT License
+
+Copyright (c) 2024 Shopee Scraper System
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+DISCLAIMER:
+
+This software is provided for educational and research purposes only. Users are 
+responsible for ensuring compliance with the terms of service of any websites 
+they scrape, including but not limited to Shopee's Terms of Service and robots.txt 
+files. The authors and contributors of this software are not responsible for any 
+misuse or legal issues that may arise from the use of this software.
+
+By using this software, you agree to:
+1. Respect website terms of service and robots.txt files
+2. Implement appropriate delays and rate limiting
+3. Not overload target servers with excessive requests
+4. Use the software responsibly and ethically
+5. Comply with all applicable laws and regulations
+
+The software includes rate limiting and delay mechanisms to promote responsible 
+scraping practices, but users are ultimately responsible for their usage patterns 
+and compliance with applicable terms and laws.

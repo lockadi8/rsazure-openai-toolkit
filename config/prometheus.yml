@@ -1,0 +1,61 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Node.js application
+  - job_name: 'shopee-scraper-api'
+    static_configs:
+      - targets: ['host.docker.internal:3000']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Node.js workers
+  - job_name: 'shopee-scraper-workers'
+    static_configs:
+      - targets: ['host.docker.internal:3001']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # MongoDB exporter (if installed)
+  - job_name: 'mongodb'
+    static_configs:
+      - targets: ['host.docker.internal:9216']
+    scrape_interval: 30s
+
+  # Redis exporter (if installed)
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['host.docker.internal:9121']
+    scrape_interval: 30s
+
+  # Elasticsearch exporter (if installed)
+  - job_name: 'elasticsearch'
+    static_configs:
+      - targets: ['host.docker.internal:9114']
+    scrape_interval: 30s
+
+  # Node exporter for system metrics (if installed)
+  - job_name: 'node'
+    static_configs:
+      - targets: ['host.docker.internal:9100']
+    scrape_interval: 30s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "alert_rules.yml"
