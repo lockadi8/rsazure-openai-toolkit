@@ -128,11 +128,17 @@ class ProxyManager {
           url = new URL(`http://${proxy}`);
         }
 
+        const port = parseInt(url.port);
+        if (isNaN(port)) { // Check if port is NaN after parsing
+          logger.error(`Invalid port for proxy string: ${proxy}`);
+          return null;
+        }
+
         return {
-          id: `${url.hostname}:${url.port}`,
+          id: `${url.hostname}:${url.port}`, // Use original url.port for ID consistency with test
           protocol: url.protocol.replace(':', ''),
           host: url.hostname,
-          port: parseInt(url.port),
+          port: port, // Use the parsed port
           username: url.username || null,
           password: url.password || null,
           geolocation: null,

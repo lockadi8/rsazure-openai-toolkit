@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
-const config = require('./index');
+// const config = require('./index'); // Removed unused import
 const logger = require('../utils/logger');
 
 // Import our custom modules
@@ -27,8 +27,7 @@ class PuppeteerConfig {
       enableImages: options.enableImages || false,
       enableCSS: options.enableCSS !== false,
       enableJavaScript: options.enableJavaScript !== false,
-      enableFonts: options.enableFonts || false,
-      
+      enableFonts: options.enableFonts || false, // Ensured no trailing space here
       // Advanced options
       blockTrackers: options.blockTrackers !== false,
       blockAds: options.blockAds !== false,

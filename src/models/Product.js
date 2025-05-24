@@ -160,6 +160,19 @@ const productSchema = new mongoose.Schema({
       default: 'medium',
     },
   },
+  priceHistory: [{
+    price: { type: Number, required: true },
+    currency: { type: String, trim: true, default: 'IDR' }, // Assuming IDR as default
+    date: { type: Date, required: true, default: Date.now },
+  }],
+  reviews: [{
+    rating: { type: Number, required: true, min: 1, max: 5 },
+    comment: { type: String, trim: true },
+    author: { type: String, trim: true, default: 'Anonymous' },
+    date: { type: Date, default: Date.now },
+    verifiedPurchase: { type: Boolean, default: false },
+    // Potentially add: helpfulVotes, imagesOrVideos, authorId (if users are linked)
+  }],
 }, {
   timestamps: true,
   toJSON: { virtuals: true },
@@ -173,6 +186,7 @@ productSchema.index({ shopId: 1, isActive: 1 });
 productSchema.index({ 'metadata.scrapedAt': -1 });
 productSchema.index({ rating: -1, reviewCount: -1 });
 productSchema.index({ soldCount: -1 });
+productSchema.index({ 'priceHistory.date': -1 }); // Index for price history date
 
 // Virtuals
 productSchema.virtual('discountAmount').get(function() {
@@ -266,7 +280,11 @@ productSchema.pre('save', function(next) {
       this.discount = 0;
     }
   }
-  
+
+  // Logic for updating priceHistory will be handled in ProductScraper or service layer,
+  // as pre-save here might not have access to the "new" price being scraped easily
+  // if only an update operation is performed without explicitly setting the price field.
+
   if (this.isModified()) {
     this.metadata.lastUpdated = new Date();
   }

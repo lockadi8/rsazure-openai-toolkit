@@ -20,7 +20,8 @@ class QueueManager extends EventEmitter {
     this.queues = new Map();
     this.workers = new Map();
     this.queueEvents = new Map();
-    this.redisConnection = null;
+    // this.redisConnection = null; // Will be passed via constructor or init
+    this.redisClient = options.redisClient || null; // Expect a redisClient
     this.isInitialized = false;
 
     // Statistics
@@ -54,12 +55,20 @@ class QueueManager extends EventEmitter {
   /**
    * Initialize queue manager
    */
-  async initialize() {
+  async initialize(redisClient) {
     try {
       logger.info('Initializing QueueManager...');
 
-      // Setup Redis connection
-      await this.setupRedisConnection();
+      if (redisClient) {
+        this.redisClient = redisClient;
+      }
+
+      if (!this.redisClient) {
+        throw new Error('QueueManager: Redis client not provided or initialized.');
+      }
+      
+      // Ensure the provided client is connected, or let BullMQ handle it
+      // For now, assume BullMQ will manage the connection state of the passed client.
 
       // Initialize queues
       await this.initializeQueues();
@@ -85,20 +94,20 @@ class QueueManager extends EventEmitter {
   /**
    * Setup Redis connection
    */
-  async setupRedisConnection() {
-    const redisConfig = {
-      ...config.database.redis,
-      lazyConnect: true,
-      retryDelayOnFailover: 100,
-      enableReadyCheck: false,
-      maxRetriesPerRequest: null,
-    };
-
-    this.redisConnection = new Redis(redisConfig);
-    await this.redisConnection.connect();
-
-    logger.info('Redis connection established for QueueManager');
-  }
+  // async setupRedisConnection() {
+  //   const redisConfig = {
+  //     ...config.database.redis,
+  //     lazyConnect: true,
+  //     retryDelayOnFailover: 100,
+  //     enableReadyCheck: false,
+  //     maxRetriesPerRequest: null,
+  //   };
+  //
+  //   this.redisConnection = new Redis(redisConfig);
+  //   await this.redisConnection.connect();
+  //
+  //   logger.info('Redis connection established for QueueManager');
+  // }
 
   /**
    * Initialize all queues
@@ -119,7 +128,7 @@ class QueueManager extends EventEmitter {
   async createQueue(queueName, options = {}) {
     try {
       const queueOptions = {
-        connection: this.redisConnection,
+        connection: this.redisClient, // Use the passed-in client
         defaultJobOptions: {
           removeOnComplete: this.options.removeOnComplete,
           removeOnFail: this.options.removeOnFail,
@@ -133,7 +142,9 @@ class QueueManager extends EventEmitter {
       };
 
       const queue = new Queue(queueName, queueOptions);
-      const queueEvents = new QueueEvents(queueName, { connection: this.redisConnection });
+      // For QueueEvents, it's often better to use a new connection or a dedicated subscriber client
+      // For now, reusing the main client, but this could be a point of refinement.
+      const queueEvents = new QueueEvents(queueName, { connection: this.redisClient });
 
       this.queues.set(queueName, queue);
       this.queueEvents.set(queueName, queueEvents);
@@ -289,10 +300,10 @@ class QueueManager extends EventEmitter {
     if (!rateLimitConfig) return;
 
     const key = `rate_limit:${queueName}`;
-    const current = await this.redisConnection.incr(key);
+    const current = await this.redisClient.incr(key);
 
     if (current === 1) {
-      await this.redisConnection.expire(key, Math.ceil(rateLimitConfig.duration / 1000));
+      await this.redisClient.expire(key, Math.ceil(rateLimitConfig.duration / 1000));
     }
 
     if (current > rateLimitConfig.max) {
@@ -565,7 +576,7 @@ class QueueManager extends EventEmitter {
       workers: this.workers.size,
       stats: this.stats,
       successRate: Math.round(successRate * 100) / 100,
-      redis: this.redisConnection?.status || 'disconnected',
+      redis: this.redisClient?.status || 'disconnected',
     };
   }
 
@@ -703,7 +714,7 @@ class QueueManager extends EventEmitter {
     }
 
     const workerOptions = {
-      connection: this.redisConnection,
+      connection: this.redisClient, // Use the passed-in client
       concurrency: options.concurrency || this.options.concurrency,
       ...options,
     };
@@ -768,11 +779,13 @@ class QueueManager extends EventEmitter {
         logger.debug(`Queue ${queueName} closed`);
       }
 
-      // Close Redis connection
-      if (this.redisConnection) {
-        await this.redisConnection.quit();
-        logger.debug('Redis connection closed');
-      }
+      // Close Redis connection (responsibility of the provider of the client)
+      // if (this.redisClient) {
+      //   // BullMQ usually doesn't require manual .quit() on the connection it uses,
+      //   // as the connection lifecycle is managed externally or by BullMQ itself.
+      //   // await this.redisClient.quit(); 
+      //   logger.debug('Redis connection managed externally');
+      // }
 
       this.isInitialized = false;
       logger.info('QueueManager shutdown completed');
@@ -800,14 +813,14 @@ class QueueManager extends EventEmitter {
         }
       }
 
-      // Force close Redis connection
-      if (this.redisConnection) {
-        try {
-          this.redisConnection.disconnect();
-        } catch (error) {
-          logger.error('Error disconnecting Redis:', error);
-        }
-      }
+      // Force close Redis connection (responsibility of the provider of the client)
+      // if (this.redisClient) {
+      //   try {
+      //     this.redisClient.disconnect();
+      //   } catch (error) {
+      //     logger.error('Error disconnecting Redis:', error);
+      //   }
+      // }
 
       this.isInitialized = false;
       logger.warn('Emergency stop completed');

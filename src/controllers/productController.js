@@ -120,30 +120,75 @@ class ProductController {
   // Get product price history
   async getPriceHistory(req, res) {
     try {
-      const { productId } = req.params;
-      const { days = 30 } = req.query;
-
-      // TODO: Implement price history tracking
-      // This is a placeholder implementation
+      const { productId: routeProductId } = req.params; // Renamed to avoid clash with product.productId
+      const rawDays = req.query.days;
       
-      const history = [
-        { date: '2024-01-01', price: 1500000 },
-        { date: '2024-01-02', price: 1450000 },
-        { date: '2024-01-03', price: 1400000 },
-        { date: '2024-01-04', price: 1350000 },
-        { date: '2024-01-05', price: 1300000 },
-      ];
+      let days = parseInt(rawDays, 10);
+      if (isNaN(days) || days <= 0) {
+        days = 30; // Default to 30 days if invalid or not provided
+      }
 
-      res.json({
-        productId,
-        days: parseInt(days),
-        history,
-        currentPrice: history[history.length - 1]?.price,
-        lowestPrice: Math.min(...history.map(h => h.price)),
-        highestPrice: Math.max(...history.map(h => h.price)),
-      });
+      const product = await Product.findOne({ 
+        $or: [{ _id: routeProductId }, { productId: routeProductId }] 
+      })
+      .select('productId name price priceHistory') // Select only necessary fields
+      .lean();
+
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+
+      const response = {
+        productId: product.productId || product._id.toString(),
+        productName: product.name,
+        currentPrice: product.price, // Assuming 'price' field stores current price
+        days: days,
+        history: [],
+        lowestPrice: null,
+        highestPrice: null,
+        message: '',
+      };
+
+      if (product.priceHistory && product.priceHistory.length > 0) {
+        const cutoffDate = new Date();
+        cutoffDate.setDate(cutoffDate.getDate() - days);
+
+        const filteredHistory = product.priceHistory.filter(entry => 
+          new Date(entry.date) >= cutoffDate
+        );
+        
+        // Sort by date descending for consistent output
+        filteredHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        response.history = filteredHistory.map(h => ({
+          price: h.price,
+          currency: h.currency || 'IDR', // Include currency, default if missing
+          date: h.date.toISOString(), 
+        }));
+
+        if (response.history.length > 0) {
+          response.lowestPrice = Math.min(...response.history.map(h => h.price));
+          response.highestPrice = Math.max(...response.history.map(h => h.price));
+          response.message = `Price history for the last ${days} days.`;
+        } else {
+          response.message = `No price history available for the last ${days} days. Current price is shown.`;
+          // If filtered history is empty, min/max could be current price or null
+          response.lowestPrice = product.price;
+          response.highestPrice = product.price;
+        }
+      } else {
+        response.message = 'No price history available for this product. Current price is shown.';
+        response.lowestPrice = product.price;
+        response.highestPrice = product.price;
+      }
+
+      res.json(response);
+
     } catch (error) {
       logger.error('Get price history error:', error);
+      if (error.name === 'CastError') {
+        return res.status(400).json({ error: 'Invalid Product ID format' });
+      }
       res.status(500).json({
         error: 'Internal server error while fetching price history',
       });
@@ -203,42 +248,54 @@ class ProductController {
   async getProductReviews(req, res) {
     try {
       const { productId } = req.params;
+      let page = parseInt(req.query.page, 10) || 1;
+      let limit = parseInt(req.query.limit, 10) || 10;
 
-      // TODO: Implement reviews scraping and storage
-      // This is a placeholder implementation
+      if (page < 1) page = 1;
+      if (limit < 1) limit = 10;
+      if (limit > 100) limit = 100; // Max limit
+
+      const product = await Product.findOne({
+        $or: [{ _id: productId }, { productId: productId }],
+        isActive: true,
+      })
+      .select('productId name reviews rating reviewCount') // Select necessary fields
+      .lean();
+
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+
+      const allReviews = product.reviews || [];
+      const totalReviews = product.reviewCount || allReviews.length; // Use reviewCount if available, else length of array
+
+      // Sort reviews by date descending (newest first) - common practice
+      allReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
       
-      const reviewsSummary = {
-        totalReviews: 1250,
-        averageRating: 4.3,
-        ratingDistribution: {
-          5: 650,
-          4: 400,
-          3: 150,
-          2: 30,
-          1: 20,
-        },
-        recentReviews: [
-          {
-            rating: 5,
-            comment: 'Produk sangat bagus, sesuai deskripsi',
-            date: '2024-01-05',
-            verified: true,
-          },
-          {
-            rating: 4,
-            comment: 'Kualitas oke, pengiriman cepat',
-            date: '2024-01-04',
-            verified: true,
-          },
-        ],
-      };
+      const startIndex = (page - 1) * limit;
+      const endIndex = page * limit;
+      const paginatedReviews = allReviews.slice(startIndex, endIndex);
+      const totalPages = Math.ceil(totalReviews / limit);
 
       res.json({
-        productId,
-        reviews: reviewsSummary,
+        productId: product.productId || product._id.toString(),
+        productName: product.name,
+        averageRating: product.rating, // Overall product rating
+        totalReviews: totalReviews,
+        pagination: {
+          currentPage: page,
+          totalPages: totalPages,
+          limit: limit,
+          totalItems: totalReviews,
+        },
+        reviews: paginatedReviews,
       });
     } catch (error) {
       logger.error('Get product reviews error:', error);
+      // Check if the error is a CastError (e.g., invalid ObjectId format)
+      if (error.name === 'CastError') {
+        return res.status(400).json({ error: 'Invalid Product ID format' });
+      }
       res.status(500).json({
         error: 'Internal server error while fetching product reviews',
       });
@@ -652,21 +709,122 @@ class ProductController {
   // Advanced search with Elasticsearch
   async advancedSearch(req, res) {
     try {
-      const { query, filters = {}, options = {} } = req.body;
+      const { query: queryString, filters = {}, options = {} } = req.body;
+
+      // Validate and sanitize options
+      const page = parseInt(options.page, 10) || 1;
+      const limit = parseInt(options.limit, 10) || 20;
+      const from = (page - 1) * limit;
+      const size = limit;
+      const sortField = options.sort || '_score'; // Default to sorting by relevance score
+      const sortOrder = options.order === 'asc' ? 'asc' : 'desc';
+
+      // Construct Elasticsearch query
+      const esQueryBody = {
+        query: {
+          bool: {
+            must: [],
+            filter: [],
+          },
+        },
+        sort: [{ [sortField]: { order: sortOrder } }],
+        // aggregations: {} // Placeholder for potential future aggregations
+      };
+
+      // Main query string
+      if (queryString) {
+        esQueryBody.query.bool.must.push({
+          multi_match: {
+            query: queryString,
+            fields: ['name^3', 'description', 'category^2', 'brand^2', 'tags^2', 'shopName'], // Boost name and category/brand/tags
+            type: 'best_fields', // Or 'most_fields', 'cross_fields', 'phrase', 'phrase_prefix'
+            fuzziness: 'AUTO',
+          },
+        });
+      } else {
+        // If no query string, match all documents (filters will still apply)
+        esQueryBody.query.bool.must.push({ match_all: {} });
+      }
       
-      // TODO: Implement Elasticsearch advanced search
-      // This is a placeholder implementation
+      // Apply filters
+      if (filters.category) {
+        esQueryBody.query.bool.filter.push({ term: { 'category.keyword': filters.category } });
+      }
+      if (filters.brand) {
+         // Assuming brand can be a string or an array of strings
+        const brands = Array.isArray(filters.brand) ? filters.brand : [filters.brand];
+        if (brands.length > 0) {
+            esQueryBody.query.bool.filter.push({ terms: { 'brand.keyword': brands } });
+        }
+      }
+      if (filters.priceMin || filters.priceMax) {
+        const priceRangeQuery = { range: { price: {} } };
+        if (filters.priceMin !== undefined) priceRangeQuery.range.price.gte = parseFloat(filters.priceMin);
+        if (filters.priceMax !== undefined) priceRangeQuery.range.price.lte = parseFloat(filters.priceMax);
+        esQueryBody.query.bool.filter.push(priceRangeQuery);
+      }
+      if (filters.ratingMin) {
+        esQueryBody.query.bool.filter.push({ range: { rating: { gte: parseFloat(filters.ratingMin) } } });
+      }
+      if (filters.shopId) {
+        esQueryBody.query.bool.filter.push({ term: { 'shopId.keyword': filters.shopId } });
+      }
+      if (filters.tags && Array.isArray(filters.tags) && filters.tags.length > 0) {
+        esQueryBody.query.bool.filter.push({ terms: { 'tags.keyword': filters.tags } });
+      }
+      if (filters.specifications && Array.isArray(filters.specifications) && filters.specifications.length > 0) {
+        filters.specifications.forEach(spec => {
+          if (spec.name && spec.value) {
+            esQueryBody.query.bool.filter.push({
+              nested: {
+                path: 'specifications',
+                query: {
+                  bool: {
+                    must: [
+                      { term: { 'specifications.name.keyword': spec.name } },
+                      { match: { 'specifications.value': spec.value } } // Use match for potentially analyzed value
+                    ]
+                  }
+                }
+              }
+            });
+          }
+        });
+      }
       
+      // Always filter for active products
+      esQueryBody.query.bool.filter.push({ term: { isActive: true } });
+
+
+      // Execute search
+      const esResult = await elasticsearchService.search(
+        elasticsearchService.indices.products, // Use the correct index name from elasticsearchService
+        esQueryBody,
+        { from, size }
+      );
+
+      const totalItems = esResult.total;
+      const totalPages = Math.ceil(totalItems / limit);
+
       res.json({
-        message: 'Advanced search feature coming soon',
-        query,
-        filters,
-        options,
+        query: queryString,
+        filters: filters,
+        options: { page, limit, sort: sortField, order: sortOrder },
+        pagination: {
+          currentPage: page,
+          totalPages: totalPages,
+          totalItems: totalItems,
+          limit: limit,
+        },
+        hits: esResult.hits,
+        // aggregations: esResult.aggregations // Include if aggregations are added
       });
+
     } catch (error) {
-      logger.error('Advanced search error:', error);
+      logger.error('Advanced search error:', error.meta ? error.meta.body : error);
       res.status(500).json({
         error: 'Internal server error during advanced search',
+        details: error.message,
       });
     }
   }

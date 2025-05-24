@@ -1,19 +1,27 @@
 const QueueManager = require('../src/services/queue/QueueManager');
 const SchedulerService = require('../src/services/scheduler/SchedulerService');
 const config = require('../config');
+const redisService = require('../src/services/redis'); // Import RedisService
 
 describe('Queue System Tests', () => {
   let queueManager;
   let scheduler;
 
   beforeAll(async () => {
+    // Connect RedisService
+    await redisService.connect();
+
     // Initialize queue manager for testing
     queueManager = new QueueManager({
       // Use test-specific configuration
       removeOnComplete: 5,
       removeOnFail: 5,
+      redisClient: redisService.getClient(), // Pass the client in constructor options
     });
-    await queueManager.initialize();
+    // Initialize now expects the client to be set either via constructor or passed here.
+    // Since we passed it in constructor, no need to pass to initialize.
+    // If initialize was the sole method to set it, it would be: await queueManager.initialize(redisService.getClient());
+    await queueManager.initialize(); 
   });
 
   afterAll(async () => {
@@ -24,6 +32,8 @@ describe('Queue System Tests', () => {
     if (queueManager) {
       await queueManager.shutdown();
     }
+    // Disconnect RedisService
+    await redisService.disconnect();
   });
 
   describe('QueueManager', () => {

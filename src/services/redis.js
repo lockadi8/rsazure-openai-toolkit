@@ -1,6 +1,14 @@
-const Redis = require('ioredis');
+// const Redis = require('ioredis'); // Original
 const config = require('../../config');
 const logger = require('../utils/logger');
+
+let Redis;
+if (process.env.NODE_ENV === 'test') {
+  Redis = require('ioredis-mock');
+  logger.info('Using ioredis-mock for testing.');
+} else {
+  Redis = require('ioredis');
+}
 
 class RedisService {
   constructor() {
@@ -16,29 +24,63 @@ class RedisService {
       
       const redisConfig = {
         ...config.database.redis,
-        lazyConnect: true,
-        retryDelayOnFailover: 100,
-        enableReadyCheck: false,
-        maxRetriesPerRequest: null,
+        // lazyConnect: true, // Removed
+        retryDelayOnFailover: 100, // This is already in config.database.redis, but explicit here
+        enableReadyCheck: config.database.redis.enableReadyCheck, // Ensure this is used from config
+        maxRetriesPerRequest: config.database.redis.maxRetriesPerRequest, // Ensure this is used from config
       };
+      
+      // Filter out undefined keys from redisConfig that ioredis might complain about
+      const cleanRedisConfig = Object.entries(redisConfig).reduce((acc, [key, value]) => {
+        if (value !== undefined) {
+          acc[key] = value;
+        }
+        return acc;
+      }, {});
+
 
       // Main client
-      this.client = new Redis(redisConfig);
+      this.client = new Redis(cleanRedisConfig);
       
       // Subscriber client for pub/sub
-      this.subscriber = new Redis(redisConfig);
+      this.subscriber = new Redis(cleanRedisConfig);
       
       // Publisher client for pub/sub
-      this.publisher = new Redis(redisConfig);
+      this.publisher = new Redis(cleanRedisConfig);
 
-      // Connect all clients
-      await Promise.all([
-        this.client.connect(),
-        this.subscriber.connect(),
-        this.publisher.connect(),
-      ]);
+      // Given that lazyConnect is now false, clients attempt to connect on instantiation.
+      // We need to wait for them to be ready.
+      const readyPromises = [this.client, this.subscriber, this.publisher].map(client => {
+        return new Promise((resolve, reject) => {
+          // If already ready, resolve immediately
+          if (client.status === 'ready') {
+            return resolve();
+          }
+          // Listen for ready and error events
+          const readyListener = () => {
+            client.removeListener('error', errorListener); // Clean up error listener
+            resolve();
+          };
+          const errorListener = (err) => {
+            client.removeListener('ready', readyListener); // Clean up ready listener
+            logger.error('Redis client connection error during initial connection:', err);
+            reject(err);
+          };
+          client.once('ready', readyListener);
+          client.once('error', errorListener); // Or handle 'close' if more appropriate for non-connection errors
+        });
+      });
 
-      this.isConnected = true;
+      if (process.env.NODE_ENV === 'test' && Redis.name === 'RedisMock') {
+        // ioredis-mock connects synchronously and is always 'ready'
+        // No need for explicit ready event waiting with the mock.
+        this.isConnected = true;
+        logger.info('ioredis-mock clients assumed ready.');
+      } else {
+        // Original logic for real ioredis
+        await Promise.all(readyPromises);
+        this.isConnected = true; // If Promise.all resolves, all are connected
+      }
 
       // Event listeners
       this.client.on('connect', () => {

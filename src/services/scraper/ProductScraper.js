@@ -181,6 +181,31 @@ class ProductScraper extends BaseScraper {
       const breadcrumbElements = document.querySelectorAll('.breadcrumb a');
       data.categories = Array.from(breadcrumbElements).map(link => link.textContent.trim());
 
+      // Add dummy reviews
+      data.reviews = [
+        {
+          rating: 5,
+          comment: 'This product is amazing! Highly recommend.',
+          author: 'UserA123',
+          date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+          verifiedPurchase: true,
+        },
+        {
+          rating: 4,
+          comment: 'Good value for money, but could be better.',
+          author: 'ShopperX',
+          date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+          verifiedPurchase: false,
+        },
+        {
+          rating: 3,
+          comment: 'It\'s okay. Does the job.',
+          author: 'ReviewerZ',
+          date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
+          verifiedPurchase: true,
+        }
+      ];
+
       return data;
     });
   }

@@ -179,9 +179,8 @@ class SchedulerService extends EventEmitter {
         throw new Error(`Schedule '${name}' not found`);
       }
 
-      // Stop and destroy the task
+      // Stop the task
       scheduledTask.task.stop();
-      scheduledTask.task.destroy();
 
       // Remove from map
       this.scheduledTasks.delete(name);
@@ -580,7 +579,6 @@ class SchedulerService extends EventEmitter {
       // Stop all scheduled tasks
       for (const [name, scheduledTask] of this.scheduledTasks) {
         scheduledTask.task.stop();
-        scheduledTask.task.destroy();
       }
 
       this.scheduledTasks.clear();

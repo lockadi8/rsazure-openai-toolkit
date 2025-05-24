@@ -60,6 +60,36 @@ class Application {
   async initializeServices() {
     logger.info('Initializing services...');
 
+    // Check for essential environment variables
+    const essentialEnvVars = [
+      'JWT_SECRET',
+      'JWT_REFRESH_SECRET',
+      'MONGODB_URI', // Good practice to ensure it's explicitly set for production
+      // Add other critical env vars as needed, e.g., SMTP credentials if email is vital
+      'SMTP_USER',
+      'SMTP_PASS',
+    ];
+
+    // Conditionally add queue dashboard credentials if dashboard is configured to be enabled and has username/password set in config
+    // This check is a bit circular if defaults were just removed. Assuming they will be set if dashboard is used.
+    if (config.queue.dashboard.enabled && (config.queue.dashboard.username || config.queue.dashboard.password)) {
+        // If dashboard is enabled and uses auth, these become essential if they were just made mandatory
+        // However, config.queue.dashboard.username will be undefined if process.env.QUEUE_DASHBOARD_USERNAME is not set.
+        // So, this specific conditional check might need refinement based on how dashboard enabling is determined.
+        // For now, let's assume if QUEUE_DASHBOARD_USERNAME or QUEUE_DASHBOARD_PASSWORD env vars are expected, they should be checked.
+        essentialEnvVars.push('QUEUE_DASHBOARD_USERNAME');
+        essentialEnvVars.push('QUEUE_DASHBOARD_PASSWORD');
+    }
+
+
+    const missingVars = essentialEnvVars.filter(varName => !process.env[varName]);
+
+    if (missingVars.length > 0) {
+      logger.error(`Missing essential environment variables: ${missingVars.join(', ')}`);
+      logger.error('Please set them in your .env file or environment. Application will not start.');
+      process.exit(1);
+    }
+
     // Initialize database connections
     await database.connect();
     await redisService.connect();

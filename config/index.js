@@ -18,8 +18,6 @@ const config = {
       uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/shopee_scraper',
       dbName: process.env.MONGODB_DB_NAME || 'shopee_scraper',
       options: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
         maxPoolSize: 10,
         serverSelectionTimeoutMS: 5000,
         socketTimeoutMS: 45000,
@@ -31,8 +29,8 @@ const config = {
       password: process.env.REDIS_PASSWORD || '',
       db: parseInt(process.env.REDIS_DB, 10) || 0,
       retryDelayOnFailover: 100,
-      enableReadyCheck: false,
-      maxRetriesPerRequest: null,
+      enableReadyCheck: true, // Changed from false to true
+      maxRetriesPerRequest: 3, 
     },
     elasticsearch: {
       node: process.env.ELASTICSEARCH_NODE || 'http://localhost:9200',
@@ -46,9 +44,9 @@ const config = {
   // Authentication & Security
   auth: {
     jwt: {
-      secret: process.env.JWT_SECRET || 'your-secret-key',
+      secret: process.env.JWT_SECRET,
       expiresIn: process.env.JWT_EXPIRES_IN || '7d',
-      refreshSecret: process.env.JWT_REFRESH_SECRET || 'your-refresh-secret',
+      refreshSecret: process.env.JWT_REFRESH_SECRET,
       refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '30d',
     },
     bcrypt: {
@@ -83,7 +81,7 @@ const config = {
 
   // Puppeteer Configuration
   puppeteer: {
-    headless: process.env.PUPPETEER_HEADLESS !== 'false',
+    headless: process.env.PUPPETEER_HEADLESS ? process.env.PUPPETEER_HEADLESS === 'true' : true,
     args: process.env.PUPPETEER_ARGS ? process.env.PUPPETEER_ARGS.split(',') : [
       '--no-sandbox',
       '--disable-setuid-sandbox',
@@ -216,8 +214,8 @@ const config = {
     dashboard: {
       enabled: process.env.QUEUE_DASHBOARD_ENABLED !== 'false',
       port: parseInt(process.env.QUEUE_DASHBOARD_PORT, 10) || 3001,
-      username: process.env.QUEUE_DASHBOARD_USERNAME || 'admin',
-      password: process.env.QUEUE_DASHBOARD_PASSWORD || 'admin123',
+      username: process.env.QUEUE_DASHBOARD_USERNAME,
+      password: process.env.QUEUE_DASHBOARD_PASSWORD,
     },
   },
 

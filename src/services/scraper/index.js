@@ -408,17 +408,33 @@ const Utils = {
 
   /**
    * Extract product ID from URL
+   * Expected URL structure: https://shopee.co.id/product/<shop_id>/<item_id>
+   * or https://shopee.co.id/Anything-i.<shop_id>.<item_id>
    */
   extractProductId(url) {
-    const match = url.match(/\.(\d+)\./);
+    // Try the new structure first: /product/shopid/itemid
+    let match = url.match(/product\/\d+\/(\d+)/);
+    if (match) {
+      return match[1];
+    }
+    // Fallback to the old structure: -i.shopid.itemid
+    match = url.match(/-i\.\d+\.(\d+)/);
     return match ? match[1] : null;
   },
 
   /**
    * Extract shop ID from URL
+   * Expected URL structure: https://shopee.co.id/shop/<shop_id>
+   * or https://shopee.co.id/Anything-i.<shop_id>.<item_id>
    */
   extractShopId(url) {
-    const match = url.match(/shop\/(\d+)/);
+    // Try the /shop/shopid structure
+    let match = url.match(/shop\/(\d+)/);
+    if (match) {
+      return match[1];
+    }
+    // Fallback to the -i.shopid.itemid structure
+    match = url.match(/-i\.(\d+)\.\d+/);
     return match ? match[1] : null;
   },
 

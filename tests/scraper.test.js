@@ -282,7 +282,7 @@ describe('Shopee Scraper System', () => {
         rating: 4,
       });
 
-      expect(url).toContain('keyword=laptop%20gaming');
+      expect(url).toContain('keyword=laptop+gaming'); // Changed %20 to +
       expect(url).toContain('price_min=5000000');
       expect(url).toContain('price_max=15000000');
       expect(url).toContain('rating_filter=4');

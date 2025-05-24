@@ -37,6 +37,7 @@ class CookieManager {
    */
   async saveCookies(accountId, cookies, metadata = {}) {
     try {
+      await this.ensureCookiesDir(); // Ensure directory exists before writing
       const sessionData = {
         accountId,
         cookies,
@@ -67,6 +68,7 @@ class CookieManager {
    */
   async loadCookies(accountId) {
     try {
+      await this.ensureCookiesDir(); // Ensure directory exists before reading
       // Check memory cache first
       if (this.sessions.has(accountId)) {
         const session = this.sessions.get(accountId);
